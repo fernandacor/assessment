@@ -1,7 +1,4 @@
 import React, { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Terminal } from "lucide-react";
 import CodeEditor from "@/components/CodeEditor";
 
 export default function Home() {
