@@ -4,32 +4,35 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
   try {
-    // Leemos el JSON que envía el SignInForm
-    const body = await request.json();
-    const { email, password } = body as { email: string; password: string };
+    // 1) Leemos el JSON que envía el cliente Next (email + password)
+    const { email, password } = await request.json();
 
-    if (!email || !password) {
-      return NextResponse.json(
-        { error: "Email y password son obligatorios." },
-        { status: 400 }
-      );
-    }
-
-    // Hacemos POST a /login de tu backend Express
+    // 2) Hacemos proxy a tu Express (http://localhost:4000/login)
     const expressRes = await fetch("http://localhost:4000/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
+      // IMPORTANTE: tu Express espera { username, password } si así lo definiste
+      // Aquí asumo que Express recibe { username: email, password }
+      body: JSON.stringify({ username: email, password }),
     });
 
-    const expressData = await expressRes.json();
-
+    // 3) Si el status NO es 200, no tratamos de parsear JSON. Leemos texto/crudo.
     if (!expressRes.ok) {
-      // Reenviamos 401 o 500 según lo que haya devuelto Express
-      return NextResponse.json(expressData, { status: expressRes.status });
+      // Intentamos leer el cuerpo como texto (puede ser “Unauthorized” u otro mensaje)
+      const errorText = await expressRes.text();
+
+      // Devolvemos status y texto de error al cliente Next
+      return NextResponse.json(
+        { error: errorText || "Error al hacer login" },
+        { status: expressRes.status }
+      );
     }
 
-    // Si login OK: { token, email, name } por ejemplo
+    // 4) Si expressRes.ok es true, parseamos el JSON normalmente
+    const expressData = await expressRes.json();
+    // expressData debería ser algo como: { token: "...", id: "...", nombre: "..." }
+
+    // 5) Devolvemos el JSON al cliente Next
     return NextResponse.json(expressData, { status: 200 });
   } catch (err) {
     console.error("Error en /api/auth/signin:", err);

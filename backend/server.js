@@ -29,6 +29,15 @@ const client = new MongoClient(uri, {
     },
 });
 
+async function log(sujeto, accion, objeto) {
+  let toLog = {};
+  toLog["timestamp"] = new Date();
+  toLog["sujeto"] = sujeto;
+  toLog["accion"] = accion;
+  toLog["objeto"] = objeto;
+  await db.collection("log").insertOne(toLog);
+}
+
 async function connectDB() {
     await client.connect();
     db = client.db(dbName);
