@@ -13,6 +13,7 @@ const dbName = "AssessmentCodeGEN";
 const uri = `mongodb+srv://${dbUser}:${dbPassword}@cluster0.vdbez5z.mongodb.net`;
 // const port = 443;
 let db;
+const localPort = 4000;
 
 const secretKey = "FCO7403AR0704SM2103SA0703";
 
@@ -77,50 +78,74 @@ app.get("/users", async (request, response) => {
     }
 });
 
-app.post("/users", async (request, response) => {
+app.post("/users", async (req, res) => {
   try {
-    let addValue = request.body;
+    const {
+      email,
+      password,
+      confirmPassword,
+      name,
+      surname,
+      address,
+      birthdate,
+    } = req.body;
 
-    let data = await db.collection("users").find({}).toArray();
-    let id = data.length + 1;
-    addValue.id = id;
-
-    let existing = await db
-      .collection("users")
-      .findOne({ usuario: addValue.usuario });
-
-    if (existing) {
-      return response.status(409).json({ error: "El usuario ya existe." });
+    // 1) Validación básica de campos:
+    if (
+      !email ||
+      !password ||
+      !confirmPassword ||
+      !name ||
+      !surname ||
+      !address ||
+      !birthdate
+    ) {
+      return res
+        .status(400)
+        .json({ error: "Faltan campos obligatorios en el body." });
+    }
+    if (password !== confirmPassword) {
+      return res
+        .status(400)
+        .json({ error: "La contraseña y su confirmación no coinciden." });
     }
 
-    const pass = addValue.contrasena;
-    bcrypt.genSalt(10, (saltErr, salt) => {
-      if (saltErr) {
-        console.error("Error al generar salt:", saltErr);
-        return response.sendStatus(500);
-      }
+    // 2) Verificar que no exista ya un usuario con ese email
+    const existing = await db
+      .collection("users")
+      .findOne({ usuario: email });
+    if (existing) {
+      return res.status(409).json({ error: "El usuario ya existe." });
+    }
 
-      bcrypt.hash(pass, salt, async (hashErr, hash) => {
-        if (hashErr) {
-          console.error("Error al hashear contraseña:", hashErr);
-          return response.sendStatus(500);
-        }
+    // 3) Hashear la contraseña
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
 
-        addValue.contrasena = hash;
+    // 4) Armar el objeto a insertar en la BD
+    const newUser = {
+      usuario: email,           // tu campo “usuario” en la colección “users”
+      contrasena: hashedPassword,
+      nombre: name,
+      apellidoPaterno: surname, // si quisieras apellidoMaterno, podrías añadirlo
+      // Si quieres separar “surname” en paterno/materno, ajusta aquí:
+      address,
+      birthdate: new Date(birthdate),
+      createdAt: new Date(),
+    };
 
-        try {
-          const result = await db.collection("users").insertOne(addValue);
-          // Devolver el documento insertado (puedes ajustarlo a tu conveniencia)
-          return response.status(201).json({ insertedId: result.insertedId });
-        } catch (dbErr) {
-          console.error("Error al insertar usuario en BD:", dbErr);
-          return response.sendStatus(500);
-        }
-      });
-    });
+    // 5) Insertar en la colección users
+    const result = await db.collection("users").insertOne(newUser);
+
+    // 6) Devolver al front el _id o algún dato mínimo
+    return res
+      .status(201)
+      .json({ insertedId: result.insertedId, message: "Usuario creado." });
   } catch (err) {
     console.error("Error en POST /users:", err);
-    return response.sendStatus(500);
+    return res
+      .status(500)
+      .json({ error: "Error interno al crear el usuario." });
   }
 });
 
@@ -172,7 +197,6 @@ app.delete("/users/:id", async (request, response) => {
     }
 });
 
-const localPort = 3000;
 app.listen(localPort, () => {
     connectDB();
     console.log(`Servidor HTTP escuchando en http://localhost:${localPort}`);
