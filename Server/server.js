@@ -94,7 +94,7 @@ app.post("/users", async (request, response) => {
       response.sendStatus(401);
     }
 });
-  
+
 app.get("/users/:id", async (request, response) => {
     try {
       let token = request.get("Authentication");
@@ -108,7 +108,7 @@ app.get("/users/:id", async (request, response) => {
     } catch {
       response.sendStatus(401);
     }
-  });
+});
   
 app.put("/users/:id", async (request, response) => {
     try {
