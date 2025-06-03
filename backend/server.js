@@ -34,6 +34,33 @@ async function connectDB() {
     console.log("Conectado a la base de datos");
 }
 
+app.post("/login", async (request, response) => {
+  let user = request.body.username;
+  let pass = request.body.password;
+
+  let data = await db.collection("users").findOne({ usuario: user });
+
+  if (data === null) {
+    response.sendStatus(401); // Usuario incorrecto
+  } else {
+    bcrypt.compare(pass, data.contrasena, (error, result) => {
+      if (result) {
+        let token = jwt.sign({ usuario: data.usuario }, secretKey, {
+          expiresIn: "24hr",
+        });
+        log(user, "login", "");
+        response.json({
+          token: token,
+          id: data.username,
+          nombre: data.name,
+        });
+      } else {
+        response.sendStatus(403); // Contraseña incorrecta
+      }
+    });
+  }
+});
+
 app.get("/users", async (request, response) => {
     try {
       let token = request.get("Authentication");
@@ -41,7 +68,6 @@ app.get("/users", async (request, response) => {
       let data = await db
         .collection("users")
         .find()
-        //.project({ _id: 0, id: 1, nombre: 1, apellidoMaterno: 1 })
         .toArray();
       response.set("Access-Control-Expose-Headers", "X-Total-Count");
       response.set("X-Total-Count", data.length);
@@ -52,47 +78,50 @@ app.get("/users", async (request, response) => {
 });
 
 app.post("/users", async (request, response) => {
-    try {
-      let token = request.get("Authentication");
-      let verifiedToken = await jwt.verify(token, secretKey);
-      let addValue = request.body;
-      let data = await db.collection("users").find({}).toArray();
-      let id = data.length + 1;
-      let avatar = addValue["avatar"];
-      if (request.body.permissions == "Ejecutivo") {
-        addValue["avatar"] = "../../images/avatarEjec.PNG";
-      } else if (request.body.permissions == "Coordinador") {
-        addValue["avatar"] = "../../images/avatarCoordAula.PNG";
-      } else if (request.body.permissions == "Nacional") {
-        addValue["avatar"] = "../../images/avatarCoordNac.PNG";
-      }
-      addValue["id"] = id;
-      let pass = addValue["contrasena"];
-      console.log(request.body);
-      data = await db
-        .collection("users")
-        .findOne({ usuario: addValue["usuario"] });
-      if (data == null) {
-        try {
-          bcrypt.genSalt(10, (error, salt) => {
-            bcrypt.hash(pass, salt, async (error, hash) => {
-              let data = await db.collection("users").find({}).toArray();
-              addValue["contrasena"] = hash;
-              console.log(addValue);
-              //let usuarioAgregar={"id": id, "usuario": user, "contrasena": hash, "nombre": name, "apellidoPaterno":flastname, "apellidoMaterno":slastname};
-              data = await db.collection("users").insertOne(addValue);
-              response.json(data);
-            });
-          });
-        } catch {
-          response.sendStatus(401);
-        }
-      } else {
-        response.sendStatus(401);
-      }
-    } catch {
-      response.sendStatus(401);
+  try {
+    let addValue = request.body;
+
+    let data = await db.collection("users").find({}).toArray();
+    let id = data.length + 1;
+    addValue.id = id;
+
+    let existing = await db
+      .collection("users")
+      .findOne({ usuario: addValue.usuario });
+
+    if (existing) {
+      return response.status(409).json({ error: "El usuario ya existe." });
     }
+
+    const pass = addValue.contrasena;
+    bcrypt.genSalt(10, (saltErr, salt) => {
+      if (saltErr) {
+        console.error("Error al generar salt:", saltErr);
+        return response.sendStatus(500);
+      }
+
+      bcrypt.hash(pass, salt, async (hashErr, hash) => {
+        if (hashErr) {
+          console.error("Error al hashear contraseña:", hashErr);
+          return response.sendStatus(500);
+        }
+
+        addValue.contrasena = hash;
+
+        try {
+          const result = await db.collection("users").insertOne(addValue);
+          // Devolver el documento insertado (puedes ajustarlo a tu conveniencia)
+          return response.status(201).json({ insertedId: result.insertedId });
+        } catch (dbErr) {
+          console.error("Error al insertar usuario en BD:", dbErr);
+          return response.sendStatus(500);
+        }
+      });
+    });
+  } catch (err) {
+    console.error("Error en POST /users:", err);
+    return response.sendStatus(500);
+  }
 });
 
 app.get("/users/:id", async (request, response) => {
