@@ -7,8 +7,6 @@ services:
       - backend1
       - backend2
       - backend3
-    env_file:
-      - .env
     environment:
       - NEXT_PUBLIC_BACKEND_URL=${NEXT_PUBLIC_BACKEND_URL}
 
@@ -33,25 +31,22 @@ services:
     environment:
       - INSTANCE_NAME=Backend 3
 
-  compiler:
-    build: ./compiler
-    ports:
-      - "5000:5000"
+  # compiler:
+  #   build: ./compiler
+  #   ports:
+  #     - "5000:5000"
 
   nginx:
     build: ./nginx
     ports:
       - "80:80"
     depends_on:
+      - frontend
       - backend1
       - backend2
       - backend3
-      - frontend
-      - compiler
-    env_file:
-      - .env
+      # - compiler
     environment:
       - NEXT_PUBLIC_BACKEND_URL=${NEXT_PUBLIC_BACKEND_URL}
       - FRONTEND_URL=${FRONTEND_URL}
       - COMPILER_URL=${COMPILER_URL}
-    
