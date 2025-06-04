@@ -5,6 +5,8 @@ services:
       - "3000:3000"
     depends_on:
       - backend
+    environment:
+      - BACKEND_URL=${BACKEND_URL}
 
   backend:
     build: ./backend
@@ -24,3 +26,9 @@ services:
       - frontend
       - backend
       - compiler
+    environment:
+      - NEXT_PUBLIC_BACKEND_URL=${NEXT_PUBLIC_BACKEND_URL}
+      - FRONTEND_URL=${FRONTEND_URL}
+      - COMPILER_URL=${COMPILER_URL}
+
+env_file: .env
