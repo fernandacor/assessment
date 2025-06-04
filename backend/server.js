@@ -1,4 +1,4 @@
-import bcrypt from "bcrypt";
+import bcryptjs from "bcryptjs";
 import bodyParser from "body-parser";
 import cors from "cors";
 import express from "express";
@@ -53,7 +53,7 @@ app.post("/login", async (request, response) => {
   if (data === null) {
     response.sendStatus(401); // Usuario incorrecto
   } else {
-    bcrypt.compare(pass, data.contrasena, (error, result) => {
+    bcryptjs.compare(pass, data.contrasena, (error, result) => {
       if (result) {
         let token = jwt.sign({ usuario: data.usuario }, secretKey, {
           expiresIn: "24hr",
@@ -128,8 +128,8 @@ app.post("/users", async (req, res) => {
     }
 
     // 3) Hashear la contraseña
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
+    const salt = await bcryptjs.genSalt(10);
+    const hashedPassword = await bcryptjs.hash(password, salt);
 
     // 4) Armar el objeto a insertar en la BD
     const newUser = {
