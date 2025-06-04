@@ -9,6 +9,10 @@
 !.yarn/plugins
 !.yarn/releases
 !.yarn/versions
+npm-debug.*
+
+umd/index.js
+umd/types.d.ts
 
 # testing
 /coverage
