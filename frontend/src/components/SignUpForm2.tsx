@@ -89,7 +89,28 @@ export default function SignUpForm() {
           onChange={(e) =>
             setFormValues({ ...formValues, email: e.target.value })
           }
-          className="block w-full px-3 py-2 mt-2 border rounded-md text-black"
+          className="block w-full px-3 py-2 mt-2 border rounded-md text-black bg-neutral-100/50"
+        />
+      </div>
+
+        {/* --- username --- */}
+        <div>
+        <label
+          htmlFor="username"
+          className="block text-sm font-medium leading-6 text-black"
+        >
+          Username
+        </label>
+        <input
+          id="username"
+          name="username"
+          type="text"
+          required
+          value={formValues.name}
+          onChange={(e) =>
+            setFormValues({ ...formValues, name: e.target.value })
+          }
+          className="block w-full px-3 py-2 mt-2 border rounded-md text-black bg-neutral-100/50"
         />
       </div>
 
@@ -110,7 +131,7 @@ export default function SignUpForm() {
           onChange={(e) =>
             setFormValues({ ...formValues, password: e.target.value })
           }
-          className="block w-full px-3 py-2 mt-2 border rounded-md text-black"
+          className="block w-full px-3 py-2 mt-2 border rounded-md text-black bg-neutral-100/50"
         />
       </div>
 
@@ -134,91 +155,7 @@ export default function SignUpForm() {
               confirmPassword: e.target.value,
             })
           }
-          className="block w-full px-3 py-2 mt-2 border rounded-md text-black"
-        />
-      </div>
-
-      {/* --- Name --- */}
-      <div>
-        <label
-          htmlFor="name"
-          className="block text-sm font-medium leading-6 text-black"
-        >
-          First Name
-        </label>
-        <input
-          id="name"
-          name="name"
-          type="text"
-          required
-          value={formValues.name}
-          onChange={(e) =>
-            setFormValues({ ...formValues, name: e.target.value })
-          }
-          className="block w-full px-3 py-2 mt-2 border rounded-md text-black"
-        />
-      </div>
-
-      {/* --- Surname --- */}
-      <div>
-        <label
-          htmlFor="surname"
-          className="block text-sm font-medium leading-6 text-black"
-        >
-          Last Name
-        </label>
-        <input
-          id="surname"
-          name="surname"
-          type="text"
-          required
-          value={formValues.surname}
-          onChange={(e) =>
-            setFormValues({ ...formValues, surname: e.target.value })
-          }
-          className="block w-full px-3 py-2 mt-2 border rounded-md text-black"
-        />
-      </div>
-
-      {/* --- Address --- */}
-      <div>
-        <label
-          htmlFor="address"
-          className="block text-sm font-medium leading-6 text-black"
-        >
-          Address
-        </label>
-        <input
-          id="address"
-          name="address"
-          type="text"
-          required
-          value={formValues.address}
-          onChange={(e) =>
-            setFormValues({ ...formValues, address: e.target.value })
-          }
-          className="block w-full px-3 py-2 mt-2 border rounded-md text-black"
-        />
-      </div>
-
-      {/* --- Birthdate --- */}
-      <div>
-        <label
-          htmlFor="birthdate"
-          className="block text-sm font-medium leading-6 text-black"
-        >
-          Birthdate
-        </label>
-        <input
-          id="birthdate"
-          name="birthdate"
-          type="date"
-          required
-          value={formValues.birthdate}
-          onChange={(e) =>
-            setFormValues({ ...formValues, birthdate: e.target.value })
-          }
-          className="block w-full px-3 py-2 mt-2 border rounded-md text-black"
+          className="block w-full px-3 py-2 mt-2 border rounded-md text-black bg-neutral-100/50"
         />
       </div>
 
@@ -230,7 +167,7 @@ export default function SignUpForm() {
       {/* --- Submit Button --- */}
       <button
         type="submit"
-        className="block w-full px-4 py-2 mt-4 text-black bg-lighter rounded-md hover:bg-darkest"
+        className="flex w-full justify-center rounded-md bg-gradient-to-r from-sky-600/50 to-pink-200 px-3 py-1.5 text-sm font-bold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
       >
         Sign Up
       </button>

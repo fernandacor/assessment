@@ -1,8 +1,9 @@
 import Link from 'next/link'
+import { LogIn, User } from 'lucide-react'
 
 export default async function Navbar() {
     return (
-        <nav className='top-0 z-50 w-full bg-yellow-900 bg-opacity-10 backdrop-filter'>
+        <nav className='top-0 z-50 w-full bg-pink-900 bg-opacity-10 backdrop-filter'>
             <div className='mx-auto max-w-7xl px-6 sm:px-8 lg:px-10'>
                 <div className='relative flex h-16 items-center justify-between'>
                     <div className='flex flex-1 items-stretch justify-start'>
@@ -26,8 +27,18 @@ export default async function Navbar() {
                                 href=' /signin'
                                 className='rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-gray-700 hover:text-gray-100'
                             >
-                                Sign in
-                            </Link>  
+                                <LogIn
+                                    className='h-6 w-6'
+                                />
+                            </Link>
+                            <Link
+                                href='/profile'
+                                className='rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-gray-700 hover:text-gray-100'
+                            >
+                            < User
+                                className='h-6 w-6'
+                                />
+                            </Link>
                     </div>
                 </div>
             </div>
