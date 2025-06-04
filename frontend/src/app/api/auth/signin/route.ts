@@ -8,7 +8,7 @@ export async function POST(request: NextRequest) {
     const { email, password } = await request.json();
 
     // 2) Hacemos proxy a tu Express (http://localhost:4000/login)
-    const expressRes = await fetch("http://localhost:4000/login", {
+    const expressRes = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       // IMPORTANTE: tu Express espera { username, password } si así lo definiste
