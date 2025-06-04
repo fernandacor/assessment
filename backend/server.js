@@ -143,7 +143,11 @@ app.delete("/users/:id", async (request, response) => {
     }
 });
 
-const localPort = 3000;
+app.get('/hello', (req, res) => {
+  res.send(`Hola desde ${process.env.INSTANCE_NAME || 'backend genérico'}\n`);
+});
+
+const localPort = 4000;
 app.listen(localPort, () => {
     connectDB();
     console.log(`Servidor HTTP escuchando en http://localhost:${localPort}`);

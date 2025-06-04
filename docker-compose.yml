@@ -4,14 +4,34 @@ services:
     ports:
       - "3000:3000"
     depends_on:
-      - backend
+      - backend1
+      - backend2
+      - backend3
+    env_file:
+      - .env
     environment:
-      - BACKEND_URL=${BACKEND_URL}
+      - NEXT_PUBLIC_BACKEND_URL=${NEXT_PUBLIC_BACKEND_URL}
 
-  backend:
+  backend1:
     build: ./backend
     ports:
-      - "4000:4000"
+      - "4001:4000"
+    environment:
+      - INSTANCE_NAME=Backend 1
+
+  backend2:
+    build: ./backend
+    ports:
+      - "4002:4000"
+    environment:
+      - INSTANCE_NAME=Backend 2
+
+  backend3:
+    build: ./backend
+    ports:
+      - "4003:4000"
+    environment:
+      - INSTANCE_NAME=Backend 3
 
   compiler:
     build: ./compiler
@@ -23,12 +43,15 @@ services:
     ports:
       - "80:80"
     depends_on:
+      - backend1
+      - backend2
+      - backend3
       - frontend
-      - backend
       - compiler
+    env_file:
+      - .env
     environment:
       - NEXT_PUBLIC_BACKEND_URL=${NEXT_PUBLIC_BACKEND_URL}
       - FRONTEND_URL=${FRONTEND_URL}
       - COMPILER_URL=${COMPILER_URL}
-
-env_file: .env
+    
