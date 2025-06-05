@@ -1,8 +1,8 @@
 # Backend con balanceo simple entre instancias
 upstream backend_servers {
-    server backend1:4000;
-    server backend2:4000;
-    server backend3:4000;
+    server ${BACKEND1_HOST}:4000;
+    server ${BACKEND2_HOST}:4000;
+    server ${BACKEND3_HOST}:4000;
 }
 
 server {
@@ -27,7 +27,7 @@ server {
 
     # Todo lo demás va al frontend (Next.js)
     location / {
-        proxy_pass http://frontend:3000;
+        proxy_pass http://${FRONTEND_HOST}:3000;
         proxy_http_version 1.1;
         proxy_set_header Host $host;
     }
