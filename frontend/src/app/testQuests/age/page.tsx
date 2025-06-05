@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import NumericSlider from "@/components/NumericSlider";
 import Sidebar from "@/components/Sidebar";
-import HumanModel from "@/components/HumanModel";
+// import HumanModel from "@/components/HumanModel";
 import BotonSiguiente from "@/components/TestButton";
 
 export default function Age() {
@@ -21,7 +21,7 @@ export default function Age() {
       <div className="flex flex-col h-full w-full bg-purple-800 p-8">
         <h1 className="text-2xl font-bold mb-6">Age</h1>
 
-        <HumanModel gender="male" age={age} />
+        {/* <HumanModel gender="male" age={age} /> */}
 
         <NumericSlider
           label="Age"
