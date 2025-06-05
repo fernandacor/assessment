@@ -12,6 +12,9 @@ services:
     command: npm run dev
     environment:
       - INSTANCE_NAME=Backend 1
+    env_file:
+      - ./.env
+
 
   backend2:
     volumes:
@@ -20,6 +23,8 @@ services:
     command: npm run dev
     environment:
       - INSTANCE_NAME=Backend 2
+    env_file:
+      - ./.env
 
   backend3:
     volumes:
@@ -28,3 +33,5 @@ services:
     command: npm run dev
     environment:
       - INSTANCE_NAME=Backend 3
+    env_file:
+      - ./.env

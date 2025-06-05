@@ -1,21 +1,21 @@
 import bcrypt from "bcrypt";
 import bodyParser from "body-parser";
 import cors from "cors";
+import dotenv from "dotenv";
 import express from "express";
 import fs from "fs";
 import https from "https";
 import jwt from "jsonwebtoken";
 import { MongoClient, ServerApiVersion } from "mongodb";
 
-const dbUser = "userTEC";
-const dbPassword = "jk3mi94r23wooQ2t";
-const dbName = "AssessmentCodeGEN";
-const uri = `mongodb+srv://${dbUser}:${dbPassword}@cluster0.vdbez5z.mongodb.net`;
-// const port = 443;
+dotenv.config();
 let db;
-const localPort = 4000;
 
-const secretKey = "FCO7403AR0704SM2103SA0703";
+const uri = process.env.MONGO_URI;
+const secretKey = process.env.SECRET_KEY;
+const localPort = process.env.PORT || 4000;
+
+const dbName = "AssessmentCodeGEN";
 
 const app = express();
 app.use(cors());
