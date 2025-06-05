@@ -1,0 +1,15 @@
+services:
+  nginx:
+    image: nginx-lb
+    build: .
+    container_name: nginx-lb
+    ports:
+      - "80:80"
+    env_file:
+      - .env
+    networks:
+      - assessment-net
+
+networks:
+  assessment-net:
+    external: true
