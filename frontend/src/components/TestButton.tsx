@@ -34,7 +34,7 @@ export default function BotonSiguiente({ respondido }: BotonSiguienteProps) {
     if (siguiente) {
       router.push(`/testQuests/${siguiente}`)
     } else {
-      router.push('/')
+      router.push('/testQuests/summary')
     }
   }
 
