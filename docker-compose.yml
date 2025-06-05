@@ -1,5 +1,6 @@
 services:
   frontend:
+    image: frontend
     build: ./frontend
     ports:
       - "3000:3000"
@@ -11,23 +12,32 @@ services:
       - NEXT_PUBLIC_BACKEND_URL=${NEXT_PUBLIC_BACKEND_URL}
 
   backend1:
+    image: backend1
     build: ./backend
     ports:
       - "4001:4000"
+    env_file:
+      - .env
     environment:
       - INSTANCE_NAME=Backend 1
 
   backend2:
+    image: backend2
     build: ./backend
     ports:
       - "4002:4000"
+    env_file:
+      - .env
     environment:
       - INSTANCE_NAME=Backend 2
 
   backend3:
+    image: backend3
     build: ./backend
     ports:
       - "4003:4000"
+    env_file:
+      - .env
     environment:
       - INSTANCE_NAME=Backend 3
 
@@ -37,6 +47,7 @@ services:
   #     - "5000:5000"
 
   nginx:
+    image: nginx
     build: ./nginx
     ports:
       - "80:80"
@@ -46,9 +57,5 @@ services:
       - backend2
       - backend3
       # - compiler
-    environment:
-      - NEXT_PUBLIC_BACKEND_URL=${NEXT_PUBLIC_BACKEND_URL}
-      - FRONTEND_URL=${FRONTEND_URL}
-      - COMPILER_URL=${COMPILER_URL}
     env_file:
       - .env
