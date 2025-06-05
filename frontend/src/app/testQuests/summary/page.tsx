@@ -1,25 +1,21 @@
 "use client";
 import { useEffect, useState } from "react";
+import { preguntas } from "@/utils/preguntas";
 
 const SummaryPage = () => {
-  const [answers, setAnswers] = useState<string[]>([]);
+  const [answers, setAnswers] = useState<{ [key: string]: string }>({});
 
   useEffect(() => {
-    const collectedAnswers: string[] = [];
+    const collectedAnswers: { [key: string]: string } = {};
 
-    // Suponiendo que tienes 5 preguntas
-    for (let i = 1; i <= 11; i++) {
-      const answer = localStorage.getItem(`question${i}`);
-      if (answer) {
-        collectedAnswers.push(answer);
-      } else {
-        collectedAnswers.push(""); // o null, si prefieres
-      }
-    }
+    preguntas.forEach((key) => {
+      const answer = localStorage.getItem(key);
+      collectedAnswers[key] = answer || "(sin respuesta)";
+    });
 
     setAnswers(collectedAnswers);
 
-    // Opcional: enviar al backend
+    // También puedes mandarlo al backend aquí si quieres
     console.log("Respuestas recopiladas:", collectedAnswers);
   }, []);
 
@@ -27,8 +23,10 @@ const SummaryPage = () => {
     <div>
       <h1>Resumen de tus respuestas</h1>
       <ul>
-        {answers.map((answer, index) => (
-          <li key={index}>Pregunta {index + 1}: {answer}</li>
+        {preguntas.map((key) => (
+          <li key={key}>
+            <strong>{key}:</strong> {answers[key]}
+          </li>
         ))}
       </ul>
     </div>
