@@ -3,8 +3,6 @@ services:
     image: nginx-lb
     build: .
     container_name: nginx-lb
-    ports:
-      - "80:80"
     env_file:
       - .env
     network_mode: "host"

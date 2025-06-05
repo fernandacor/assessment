@@ -1,4 +1,6 @@
 //Sign In form
+"use client";
+
 import SignInForm from '@/components/SignInForm'
 import Link from 'next/link'
 

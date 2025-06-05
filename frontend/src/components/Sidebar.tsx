@@ -90,7 +90,7 @@ export default function Sidebar({
           icon={<LogOut />}
           label="Log Out"
           isOpen={isOpen}
-          onClick={handleLogout}
+          href="/api/auth/logout"
         />
       </nav>
     </div>
