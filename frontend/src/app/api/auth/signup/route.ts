@@ -47,7 +47,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Hacemos POST a tu backend Express (por ejemplo, http://localhost:4000/users)
-    const expressRes = await fetch("http://localhost:4000/users", {
+    const expressRes = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

@@ -1,0 +1,52 @@
+services:
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend1
+      - backend2
+      - backend3
+    environment:
+      - NEXT_PUBLIC_BACKEND_URL=${NEXT_PUBLIC_BACKEND_URL}
+
+  backend1:
+    build: ./backend
+    ports:
+      - "4001:4000"
+    environment:
+      - INSTANCE_NAME=Backend 1
+
+  backend2:
+    build: ./backend
+    ports:
+      - "4002:4000"
+    environment:
+      - INSTANCE_NAME=Backend 2
+
+  backend3:
+    build: ./backend
+    ports:
+      - "4003:4000"
+    environment:
+      - INSTANCE_NAME=Backend 3
+
+  # compiler:
+  #   build: ./compiler
+  #   ports:
+  #     - "5000:5000"
+
+  nginx:
+    build: ./nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - frontend
+      - backend1
+      - backend2
+      - backend3
+      # - compiler
+    environment:
+      - NEXT_PUBLIC_BACKEND_URL=${NEXT_PUBLIC_BACKEND_URL}
+      - FRONTEND_URL=${FRONTEND_URL}
+      - COMPILER_URL=${COMPILER_URL}
