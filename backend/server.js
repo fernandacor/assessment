@@ -44,7 +44,7 @@ async function connectDB() {
     console.log("Conectado a la base de datos");
 }
 
-app.post("/login", async (request, response) => {
+app.post("/api/login", async (request, response) => {
   let user = request.body.username;
   let pass = request.body.password;
 
@@ -71,7 +71,7 @@ app.post("/login", async (request, response) => {
   }
 });
 
-app.get("/users", async (request, response) => {
+app.get("/api/users", async (request, response) => {
     try {
       let token = request.get("Authentication");
       let verifiedToken = await jwt.verify(token, secretKey);
@@ -87,7 +87,7 @@ app.get("/users", async (request, response) => {
     }
 });
 
-app.post("/users", async (req, res) => {
+app.post("/api/users", async (req, res) => {
   try {
     const {
       email,
@@ -158,7 +158,7 @@ app.post("/users", async (req, res) => {
   }
 });
 
-app.get("/users/:id", async (request, response) => {
+app.get("/api/users/:id", async (request, response) => {
     try {
       let token = request.get("Authentication");
       let verifiedToken = await jwt.verify(token, secretKey);
@@ -173,7 +173,7 @@ app.get("/users/:id", async (request, response) => {
     }
 });
   
-app.put("/users/:id", async (request, response) => {
+app.put("/api/users/:id", async (request, response) => {
     try {
       let token = request.get("Authentication");
       let verifiedToken = await jwt.verify(token, secretKey);
@@ -193,7 +193,7 @@ app.put("/users/:id", async (request, response) => {
     }
 });
   
-app.delete("/users/:id", async (request, response) => {
+app.delete("/api/users/:id", async (request, response) => {
     try {
       let token = request.get("Authentication");
       let verifiedToken = await jwt.verify(token, secretKey);
@@ -206,7 +206,7 @@ app.delete("/users/:id", async (request, response) => {
     }
 });
 
-app.get('/hello', (req, res) => {
+app.get('/api/hello', (req, res) => {
   res.send(`Hola desde ${process.env.INSTANCE_NAME || 'backend genérico'}\n`);
 });
 

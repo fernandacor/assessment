@@ -50,3 +50,5 @@ services:
       - NEXT_PUBLIC_BACKEND_URL=${NEXT_PUBLIC_BACKEND_URL}
       - FRONTEND_URL=${FRONTEND_URL}
       - COMPILER_URL=${COMPILER_URL}
+    env_file:
+      - .env
