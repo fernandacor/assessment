@@ -1,0 +1,8 @@
+services:
+  nginx:
+    image: nginx-lb
+    build: .
+    container_name: nginx-lb
+    env_file:
+      - .env
+    network_mode: "host"

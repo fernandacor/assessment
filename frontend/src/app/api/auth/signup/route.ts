@@ -4,36 +4,22 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
   try {
-    // Leemos el JSON que nos envía el cliente (tu SignUpForm)
+    // 1) Leemos el JSON que envía el cliente (tu SignUpForm)
     const body = await request.json();
     const {
       email,
       password,
       confirmPassword,
-      name,
-      surname,
-      address,
-      birthdate,
+      username,
     } = body as {
       email: string;
       password: string;
       confirmPassword: string;
-      name: string;
-      surname: string;
-      address: string;
-      birthdate: string;
+      username: string;
     };
-
-    // Validaciones básicas:
-    if (
-      !email ||
-      !password ||
-      !confirmPassword ||
-      !name ||
-      !surname ||
-      !address ||
-      !birthdate
-    ) {
+    console.log(body);
+    // 2) Validaciones básicas
+    if (!email || !password) {
       return NextResponse.json(
         { error: "Faltan campos obligatorios en el body." },
         { status: 400 }
@@ -46,30 +32,20 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Hacemos POST a tu backend Express (por ejemplo, http://localhost:4000/users)
-    const expressRes = await fetch("http://localhost:4000/users", {
+    // 3) Hacemos POST a tu backend Express para crear el usuario
+    //    (supongo que tu variable de entorno NEXT_PUBLIC_BACKEND_URL = "http://localhost:4000")
+    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL!;
+    const createRes = await fetch(`${backendUrl}/users`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        email,
-        password,
-        confirmPassword,
-        name,
-        surname,
-        address,
-        birthdate,
-      }),
+      body: JSON.stringify({ email, password, username }),
     });
 
-    const expressData = await expressRes.json();
-
-    if (!expressRes.ok) {
-      // Si Express devolvió 4xx/5xx, devolvemos el mismo status y JSON al cliente Next
-      return NextResponse.json(expressData, { status: expressRes.status });
+    const createData = await createRes.json();
+    if (!createRes.ok) {
+      // Si Express devolvió error en el signup (409, 400, etc.), lo reenviamos al cliente
+      return NextResponse.json(createData, { status: createRes.status });
     }
-
-    // Si el registro fue exitoso:
-    return NextResponse.json(expressData, { status: 200 });
   } catch (err) {
     console.error("Error en /api/auth/signup:", err);
     return NextResponse.json(

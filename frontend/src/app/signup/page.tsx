@@ -1,4 +1,6 @@
 //Sign up form
+"use client";
+
 import SignUpForm2 from '@/components/SignUpForm2'
 import Link from 'next/link'
 

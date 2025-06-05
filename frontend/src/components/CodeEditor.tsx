@@ -15,6 +15,7 @@ export default function CodeEditor() {
 
   const [isSidebarOpen, setSidebarOpen] = useState(true);
   const [tabs, setTabs] = useState<FileTab[]>([
+    // hay que cambiar aquí a que jale de la base de datos y se guarden
     { id: 'main.py', name: 'main.py', 
       content: 
         '# Código inicial:'
@@ -75,8 +76,11 @@ export default function CodeEditor() {
             </div>
           ))}
 
-          <button className="ml-auto mr-3 text-purple-200 hover:text-purple-200 hover:bg-purple-800 rounded-md p-2"> 
+          <button 
+            onClick={() => {console.log("play button clicked")}}
+            className="ml-auto mr-3 text-purple-200 hover:text-purple-200 hover:bg-purple-800 rounded-md p-2">
             <Play /> 
+            {/* if file not open, no pasa nada al clickear */}
           </button>
         </div>
 
