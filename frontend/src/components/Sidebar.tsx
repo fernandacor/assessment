@@ -13,6 +13,9 @@ import {
   LogIn,
   LogOut,
   BrainCircuit,
+  Grape,
+  User,
+  Home
 } from "lucide-react";
 
 export default function Sidebar({
@@ -46,34 +49,41 @@ export default function Sidebar({
       </div>
       <nav className="flex flex-col space-y-4 mt-4 px-2">
         <SidebarItem
-          icon={<Code />}
-          label="Editor"
+          icon={<Home />}
+          label="Home"
           isOpen={isOpen}
-          href="/codeEditor"
+          href="/"
         />
         <SidebarItem
-          icon={<BrainCircuit />}
-          label="Compilador"
+          icon={<User />}
+          label="Profile"
           isOpen={isOpen}
-          href="/compiler"
+          href="/profile"
+        />
+        <SidebarItem
+          icon={<Grape />}
+          label="Wine Recommendation"
+          isOpen={isOpen}
+          href="/wineRec"
         />
         <SidebarItem icon={<FileText />} label="Archivos" isOpen={isOpen} />
         <SidebarItem
           icon={<Settings />}
           label="Configuración"
           isOpen={isOpen}
+          href="/configuracion"
         />
         <SidebarItem
           icon={<LogIn />}
           label="Sign In"
           isOpen={isOpen}
-          href="/auth/signin"
+          href="/signin"
         />
         <SidebarItem
           icon={<Code />}
           label="Sign Up"
           isOpen={isOpen}
-          href="/auth/signup"
+          href="/signup"
         />
         {/* Ítem de Logout pasa onClick en lugar de href */}
         <SidebarItem
