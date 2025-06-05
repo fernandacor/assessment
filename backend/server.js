@@ -198,31 +198,18 @@ app.post("/users", async (req, res) => {
     const {
       email,
       password,
-      confirmPassword,
-      name,
-      surname,
-      address,
-      birthdate,
+      username,
     } = req.body;
 
     // 1) Validación básica de campos:
     if (
       !email ||
       !password ||
-      !confirmPassword ||
-      !name ||
-      !surname ||
-      !address ||
-      !birthdate
+      !username
     ) {
       return res
         .status(400)
         .json({ error: "Faltan campos obligatorios en el body." });
-    }
-    if (password !== confirmPassword) {
-      return res
-        .status(400)
-        .json({ error: "La contraseña y su confirmación no coinciden." });
     }
 
     // 2) Verificar que no exista ya un usuario con ese email
@@ -241,11 +228,7 @@ app.post("/users", async (req, res) => {
     const newUser = {
       usuario: email,           // tu campo “usuario” en la colección “users”
       contrasena: hashedPassword,
-      nombre: name,
-      apellidoPaterno: surname, // si quisieras apellidoMaterno, podrías añadirlo
-      // Si quieres separar “surname” en paterno/materno, ajusta aquí:
-      address,
-      birthdate: new Date(birthdate),
+      username: username,
       createdAt: new Date(),
     };
 

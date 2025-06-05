@@ -4,40 +4,47 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
   try {
-    // 1) Leemos el JSON que envía el cliente Next (email + password)
     const { email, password } = await request.json();
+    console.log("🔐 [API] POST /api/auth/signin con body:", { email, password });
 
-    // 2) Hacemos proxy a tu Express (http://localhost:4000/login)
+    // Llamamos a tu Express para validar credenciales
     const expressRes = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      // IMPORTANTE: tu Express espera { username, password } si así lo definiste
-      // Aquí asumo que Express recibe { username: email, password }
       body: JSON.stringify({ username: email, password }),
     });
 
-    // 3) Si el status NO es 200, no tratamos de parsear JSON. Leemos texto/crudo.
+    console.log("🔐 [API] Express respondió con status:", expressRes.status);
     if (!expressRes.ok) {
-      // Intentamos leer el cuerpo como texto (puede ser “Unauthorized” u otro mensaje)
-      const errorText = await expressRes.text();
-
-      // Devolvemos status y texto de error al cliente Next
+      const text = await expressRes.text();
+      console.log("🔐 [API] Error de Express:", text);
       return NextResponse.json(
-        { error: errorText || "Error al hacer login" },
+        { error: text || "Credenciales inválidas" },
         { status: expressRes.status }
       );
     }
 
-    // 4) Si expressRes.ok es true, parseamos el JSON normalmente
-    const expressData = await expressRes.json();
-    // expressData debería ser algo como: { token: "...", id: "...", nombre: "..." }
+    // Extraemos el token que nos devolvió Express
+    const { token } = await expressRes.json();
+    console.log("🔐 [API] Express devolvió token:", token);
 
-    // 5) Devolvemos el JSON al cliente Next
-    return NextResponse.json(expressData, { status: 200 });
+    // Creamos la respuesta Next y seteamos la cookie HttpOnly
+    const response = NextResponse.json({ success: true });
+    response.cookies.set({
+      name: "token",
+      value: token,
+      httpOnly: true,  // Importante: middleware sí podrá leerla en el servidor
+      secure: false,   // Pon true en producción si tienes HTTPS
+      sameSite: "lax",
+      path: "/",       // disponible en todo el dominio
+      maxAge: 60 * 60 * 24, // 1 día
+    });
+    console.log("🔐 [API] Set-Cookie enviado por Next:", response.headers.get("set-cookie"));
+    return response;
   } catch (err) {
-    console.error("Error en /api/auth/signin:", err);
+    console.error("🔐 [API] Error en /api/auth/signin:", err);
     return NextResponse.json(
-      { error: "Error interno en proxy de signin" },
+      { error: "Error interno al iniciar sesión" },
       { status: 500 }
     );
   }
