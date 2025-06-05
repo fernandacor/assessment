@@ -210,7 +210,7 @@ app.get('/hello', (req, res) => {
   res.send(`Hola desde ${process.env.INSTANCE_NAME || 'backend genérico'}\n`);
 });
 
-app.listen(localPort, () => {
+app.listen(localPort, '0.0.0.0', () => {
     connectDB();
     console.log(`Servidor HTTP escuchando en http://localhost:${localPort}`);
 });
