@@ -22,10 +22,7 @@ export async function POST(request: NextRequest) {
       const errorText = await expressRes.text();
 
       // Devolvemos status y texto de error al cliente Next
-      return NextResponse.json(
-        { error: errorText || "Error al hacer login" },
-        { status: expressRes.status }
-      );
+      return NextResponse.json({ error: errorText || "Error al hacer login" }, { status: expressRes.status });
     }
 
     // 4) Si expressRes.ok es true, parseamos el JSON normalmente
@@ -36,9 +33,6 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(expressData, { status: 200 });
   } catch (err) {
     console.error("Error en /api/auth/signin:", err);
-    return NextResponse.json(
-      { error: "Error interno en proxy de signin" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: (err as Error).message || "Error interno" }, { status: 500 });
   }
 }
