@@ -2,11 +2,16 @@
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
-  // Creamos la respuesta que redirige a /signin
-  const response = NextResponse.redirect(new URL("/signin", request.url));
+  // Creamos una respuesta vacía que devolverá JSON
+  const response = NextResponse.json({ success: true });
 
-  // Borramos la cookie "token" en el path "/"
-  response.cookies.delete("token", { path: "/" });
+  // Expiramos (borramos) la cookie "token"
+  response.cookies.set({
+    name: "token",
+    value: "",
+    path: "/",
+    maxAge: 0,    // maxAge=0 hace que el navegador elimine la cookie
+  });
 
   return response;
 }

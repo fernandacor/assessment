@@ -1,0 +1,8 @@
+services:
+  frontend:
+    image: frontend
+    build: .
+    container_name: frontend
+    env_file:
+      - .env
+    network_mode: "host"

@@ -10,21 +10,15 @@ services:
       - ./backend:/app
       - /app/node_modules
     command: npm run dev
-    environment:
-      - INSTANCE_NAME=Backend 1
 
   backend2:
     volumes:
       - ./backend:/app
       - /app/node_modules
     command: npm run dev
-    environment:
-      - INSTANCE_NAME=Backend 2
 
   backend3:
     volumes:
       - ./backend:/app
       - /app/node_modules
     command: npm run dev
-    environment:
-      - INSTANCE_NAME=Backend 3
