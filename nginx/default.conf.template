@@ -1,4 +1,3 @@
-# Backend con balanceo simple entre instancias
 upstream backend_servers {
     server ${BACKEND1_HOST}:4000;
     server ${BACKEND2_HOST}:4000;
@@ -10,7 +9,7 @@ server {
 
     # Rutas que empiezan con /api/ van al backend balanceado
     location /api/ {
-        proxy_pass http://backend_servers;
+        proxy_pass http://backend_servers/;
     }
 
     # Rutas que empiezan con /compiler/ van al compilador en Python

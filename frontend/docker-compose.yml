@@ -3,7 +3,6 @@ services:
     image: frontend
     build: .
     container_name: frontend
-    ports:
-      - "3000:3000"
     env_file:
       - .env
+    network_mode: "host"
