@@ -7,4 +7,4 @@ services:
       - "80:80"
     env_file:
       - .env
-    networks_mode: "host"
+    network_mode: "host"
