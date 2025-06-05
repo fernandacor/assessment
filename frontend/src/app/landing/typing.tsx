@@ -6,19 +6,20 @@ interface TypingTextProps {
 }
 
 const TypingText: React.FC<TypingTextProps> = ({ onTypingDone }) => {
-  const introText = `Social networks are a set of websites and applications that enable individuals and communities to connect, discuss and exchange information, and/or produce and share contents. Today, due to the rapid advancement of technology and the typical effortless access to smartphones, the use of social networks has been growing expeditiously. Instagram, Telegram, Facebook, Twitter, Skype and WhatsApp are some of the most popular social networks among users.
-According to a study on the impact of social media usage on student academic performance, a big proportion of social network users are university students. They are one of the most active audiences on social networks and spend several hours online each day. The use of these networks can have both positive and negative effects on students' academic performance. However, based on a study by Woods et al. that the adverse effects of these networks outweigh the positive effects \n`;
+  const introText = `Social networks are a set of websites and applications that enable individuals and communities to connect, discuss and exchange information, and/or produce and share contents. Today, due to the rapid advancement of technology and the typical effortless access to smartphones, the use of social networks has been growing expeditiously.
+ A big proportion of social network users are university students. The use of these networks can have both positive and negative effects on students' academic performance. However, based on a study by H.C. Woods, declares that the adverse effects of these networks outweigh the positive effects \n`;
 
   const linkText =
     "\n- The impact of social networking addiction on the academic achievement of university students globally: A meta-analysis. (2025)";
   const linkUrl = "https://doi.org/10.1016/j.puhip.2025.100584";
+  
+  const questionText = `\n\nDo you have an addiction to social media?`;
 
-  const fullText = introText + " " + linkText;
+  const fullText = introText + " " + linkText + " " + questionText;
 
   const [displayedText, setDisplayedText] = useState("");
   const [index, setIndex] = useState(0);
   const [skip, setSkip] = useState(false);
-  const [showButton, setShowButton] = useState(false);
 
 
   useEffect(() => {
@@ -59,24 +60,33 @@ According to a study on the impact of social media usage on student academic per
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
-  const isLinkTyped = displayedText.endsWith(linkText);
+  const linkStartIndex = introText.length + 1; // \n
+  const questionStartIndex = linkStartIndex + linkText.length + 2; // \n\n
 
-  const typedIntro = displayedText.slice(0, displayedText.length - (isLinkTyped ? linkText.length : 0));
-  const typedLink = isLinkTyped ? linkText : "";
+  const typedIntro = displayedText.slice(0, Math.min(displayedText.length, linkStartIndex));
+  const typedLink = displayedText.slice(linkStartIndex, Math.min(displayedText.length, questionStartIndex));
+  const typedQuestion = displayedText.slice(questionStartIndex);
 
   return (
-    <p className="whitespace-pre-wrap font-mono text-sm font-bold text-white">
+    <div className="whitespace-pre-wrap font-mono text-sm font-bold text-white text-center">
       {typedIntro}
-      {typedLink ? (
-        <a href={linkUrl} target="_blank" rel="noopener noreferrer" className="hover:underline">
+      {typedLink && (
+        <a
+          href={linkUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-white hover:underline italic text-xs"
+        >
           {typedLink}
         </a>
-      ) : (
-        typedLink 
+      )}
+      {typedQuestion && (
+        <p className="mt-4 text-xl text-white font-semibold">
+          {typedQuestion}
+        </p>
       )}
       <span className="animate-blink">|</span>
-    </p>
-    
+    </div>
   );
 }
 

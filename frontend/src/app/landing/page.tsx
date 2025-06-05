@@ -14,7 +14,6 @@ const transition = {
 const Landing = () => {
   const [typingDone, setTypingDone] = React.useState(false);
 
-  // Pass a callback to TypingText that fires when done
   return (
     <div className="flex min-h-screen justify-center bg-gradient-to-tr from-green-500 to-blue-400 p-10 items-center">
       <div className="w-max flex flex-col items-center">
