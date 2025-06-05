@@ -41,11 +41,11 @@ services:
     environment:
       - INSTANCE_NAME=Backend 3
 
-  compiler:
-    image: backend3
-    build: ./compiler
-    ports:
-      - "5000:5000"
+  # compiler:
+  #   image: backend3
+  #   build: ./compiler
+  #   ports:
+  #     - "5000:5000"
 
   nginx:
     image: nginx

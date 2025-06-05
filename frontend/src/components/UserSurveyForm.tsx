@@ -25,22 +25,23 @@ export default function UserSurveyForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    try {
-      const response = await fetch("/api/evaluate", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+    // try {
+    //   const response = await fetch("/api/evaluate", {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify(formData),
+    //   });
 
-      const result = await response.json();
-      console.log("Respuesta del backend:", result);
+    //   const result = await response.json();
+    //   console.log("Respuesta del backend:", result);
 
-      // Aquí podrías guardar el resultado o mostrarlo en pantalla
-    } catch (error) {
-      console.error("Error al enviar datos:", error);
-    }
+    //   // Aquí podrías guardar el resultado o mostrarlo en pantalla
+    // } catch (error) {
+    //   console.error("Error al enviar datos:", error);
+    // }
+    console.log("Submit");
   };
 
   return (
