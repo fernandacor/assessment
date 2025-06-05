@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import NumericSlider from "@/components/NumericSlider";
 import Sidebar from "@/components/Sidebar";
 import BotonSiguiente from "@/components/TestButton";
@@ -11,7 +11,10 @@ export default function MentalHealth() {
 
   const respuesta = { mentalHealth: mentalHealth };
   console.log("Respuesta de salud mental:", respuesta);
-  localStorage.setItem("mentalHealth", mentalHealth.toString());
+  useEffect(() => {
+    localStorage.setItem("mentalHealth", mentalHealth.toString());
+  }
+  , [mentalHealth]);
 
   return (
     <div className="flex h-screen w-full text-white">

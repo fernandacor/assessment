@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import NumericSlider from "@/components/NumericSlider";
 import Sidebar from "@/components/Sidebar";
 import BotonSiguiente from "@/components/TestButton";
@@ -11,7 +11,10 @@ export default function DailyUsage() {
 
   const respuesta = { dailyUsage: usage };
   console.log("Respuesta de uso diario:", respuesta);
-  localStorage.setItem("dailyUsage", usage.toString());
+  useEffect(() => {
+    localStorage.setItem("dailyUsage", usage.toString());
+  }
+  , [usage]);
 
   return (
     <div className="flex h-screen w-full text-white">

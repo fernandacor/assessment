@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import NumericSlider from "@/components/NumericSlider";
 import Sidebar from "@/components/Sidebar";
 import BotonSiguiente from "@/components/TestButton";
@@ -11,7 +11,10 @@ export default function Conflicts() {
 
   const respuesta = { conflicts: conflictos };
   console.log("Conflictos:", respuesta);
-  localStorage.setItem("conflicts", conflictos.toString());
+  useEffect (() => {
+    localStorage.setItem("conflicts", conflictos.toString());
+  }
+  , [conflictos]);
 
   return (
     <div className="flex h-screen w-full text-white">

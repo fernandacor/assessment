@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from "react";
+import React, { useState, useEffect, use } from "react";
 import NumericSlider from "@/components/NumericSlider";
 import Sidebar from "@/components/Sidebar";
 import BotonSiguiente from "@/components/TestButton";
@@ -11,7 +11,10 @@ export default function SleepHours() {
 
   const respuesta = { sleepHours: sleepHours };
   console.log("Respuesta de horas de sueño:", respuesta);
+  useEffect(() => {
   localStorage.setItem("sleepHours", sleepHours.toString());
+  }
+  , [sleepHours]);
 
   return (
     <div className="flex h-screen w-full text-white">

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Sidebar from "@/components/Sidebar";
 import BotonSiguiente from "@/components/TestButton";
 
@@ -8,7 +8,10 @@ export default function Relationship() {
     const [isSidebarOpen, setSidebarOpen] = useState(true);
     const [relationshipStatus, setRelationshipStatus] = useState("");
     console.log("Estado de la relación:", relationshipStatus);
+    useEffect (() => {
     localStorage.setItem("relationshipStatus", relationshipStatus);
+    }
+    , [relationshipStatus]);
 
     return (
     <div className="flex h-screen w-full text-white">

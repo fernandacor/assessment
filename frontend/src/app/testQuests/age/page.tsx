@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import NumericSlider from "@/components/NumericSlider";
 import Sidebar from "@/components/Sidebar";
 // import HumanModel from "@/components/HumanModel";
@@ -12,7 +12,10 @@ export default function Age() {
 
   const respuesta = {age: age};
   console.log("Respuesta de edad:", respuesta);
+  useEffect(() => {
   localStorage.setItem("age", age.toString());
+  }
+  , [age]);
 
   return (
     <div className="flex h-screen w-full text-white">

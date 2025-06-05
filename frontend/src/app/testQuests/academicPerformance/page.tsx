@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Sidebar from "@/components/Sidebar";
 import BotonSiguiente from "@/components/TestButton";
 
@@ -10,7 +10,10 @@ export default function AcademicPerformance() {
 
     const respuesta = { academicPerformance: academicPerformance };
     console.log("Respuesta de rendimiento académico:", respuesta);
-    localStorage.setItem("academicPerformance", academicPerformance);
+    useEffect(() => {
+      localStorage.setItem("academicPerformance", academicPerformance);
+    }
+    , [academicPerformance]);
 
     return (
     <div className="flex h-screen w-full text-white">

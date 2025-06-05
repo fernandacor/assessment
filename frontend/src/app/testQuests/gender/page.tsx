@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, use } from "react";
 import Sidebar from "@/components/Sidebar";
 // import HumanModel from "@/components/HumanModel";
 import BotonSiguiente from "@/components/TestButton";
@@ -12,7 +12,10 @@ export default function Gender() {
   // Guardar respuesta en localStorage
   const respuesta = {selectedGender: selectedGender};
   console.log("Respuesta de género:", respuesta);
+  useEffect(() => {
   localStorage.setItem("gender", selectedGender);
+  }
+  , [selectedGender]);
 
   return (
     <div className="flex h-screen w-full text-white">
