@@ -1,3 +1,4 @@
+//wineRec
 'use client';
 
 import React, { useState } from "react";
@@ -18,7 +19,7 @@ const questions = [
   "conflicts",
 ];
 
-export default function WineRecs() {
+export default function PreguntasGrid() {
   const [isSidebarOpen, setSidebarOpen] = useState(true);
 
   return (

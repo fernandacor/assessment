@@ -27,7 +27,7 @@ export default function Conflicts() {
           label="Conflicts"
           step={0.5}
           min={0}
-          max={20}
+          max={5}
           value={conflictos}
           onChange={setConflictos}
         />
