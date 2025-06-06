@@ -1,74 +1,69 @@
-'use client';
-
-import React, { Suspense, useRef, useState } from 'react';
-import { Canvas } from '@react-three/fiber';
-import { useGLTF } from '@react-three/drei';
-import { gsap } from 'gsap';
+'use client'
+import React, { Suspense, useEffect, useState } from 'react';
+import { Canvas, useThree, useFrame } from '@react-three/fiber';
+import { OrbitControls, useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
 
+
 export default function Balanza() {
-  const [answer, setAnswer] = useState<'yes' | 'no' | null>(null);
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  if (!isClient) return null;
 
   return (
-    <div className="w-full h-[500px] bg-white text-black relative">
-      <Canvas camera={{ position: [0, 0, 10], fov: 30 }}>
+    <div className="w-full h-full rounded-xl">
+      <Canvas camera={{ position: [0, 0, 25], fov: 20 }}>
         <ambientLight intensity={1} />
+        <directionalLight position={[2, 2, 2]} />
         <Suspense fallback={null}>
-          <BalanzaModel onAnswer={setAnswer} />
+          <Model />
         </Suspense>
+        <OrbitControls />
       </Canvas>
-
-      {answer && (
-        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black text-white px-4 py-2 rounded">
-          Respuesta: {answer.toUpperCase()}
-        </div>
-      )}
     </div>
   );
 }
 
-function BalanzaModel({ onAnswer }: { onAnswer: (res: 'yes' | 'no') => void }) {
-  const { nodes } = useGLTF('/balanza.glb');
-  const travesanoRef = useRef<THREE.Mesh>(null);
+function Model() {
+  const { scene, camera, gl } = useThree();
+  const gltf = useGLTF('/models/balanza.glb');
+  const raycaster = new THREE.Raycaster();
+  const mouse = new THREE.Vector2();
 
-  const handleHover = (side: 'left' | 'right') => {
-    const angle = side === 'left' ? -0.2 : 0.2;
-    gsap.to(travesanoRef.current!.rotation, { z: angle, duration: 0.4 });
-  };
+  useEffect(() => {
+    const handleClick = (event: { clientX: number; clientY: number; }) => {
+      // Normaliza coordenadas del mouse
+      const bounds = gl.domElement.getBoundingClientRect();
+      mouse.x = ((event.clientX - bounds.left) / bounds.width) * 2 - 1;
+      mouse.y = -((event.clientY - bounds.top) / bounds.height) * 2 + 1;
 
-  const handleOut = () => {
-    gsap.to(travesanoRef.current!.rotation, { z: 0, duration: 0.4 });
-  };
+      raycaster.setFromCamera(mouse, camera);
+      const intersects = raycaster.intersectObjects(scene.children, true);
 
-  const handleClick = (side: 'yes' | 'no') => {
-    onAnswer(side);
-    const angle = side === 'yes' ? -0.3 : 0.3;
-    gsap.to(travesanoRef.current!.rotation, { z: angle, duration: 0.8 });
-  };
-
-  return (
-    <group>
-      <primitive object={nodes.Base} />
-      <primitive object={nodes.Columna} />
-      <primitive object={nodes.Travesano} ref={travesanoRef} />
-
-      {/* Platillo Izquierdo */}
-      <primitive
-        object={nodes.PlatilloIzq}
-        name="PlatilloIzq"
-        onPointerOver={() => handleHover('left')}
-        onPointerOut={handleOut}
-        onClick={() => handleClick('yes')}
-      />
-
-      {/* Platillo Derecho */}
-      <primitive
-        object={nodes.PlatilloDer}
-        name="PlatilloDer"
-        onPointerOver={() => handleHover('right')}
-        onPointerOut={handleOut}
-        onClick={() => handleClick('no')}
-      />
-    </group>
-  );
+      if (intersects.length > 0) {
+        const clickedObject = intersects[0].object;
+        if (clickedObject.name === 'Sphere001_2' || 
+          clickedObject.name === 'Sphere001' || 
+          clickedObject.name === 'Sphere001_15' || 
+          clickedObject.name === 'Sphere001_17' || 
+          clickedObject.name === 'Text') {
+          console.log('Yes clicked');
+          localStorage.setItem('academicPerformance', 'Yes');
+        } else if (clickedObject.name === 'Text001' || 
+          clickedObject.name === 'Sphere' || 
+          clickedObject.name === 'Sphere_2') {
+          console.log('No clicked');
+          localStorage.setItem('academicPerformance', 'No');
+    };
+  }
 }
+    gl.domElement.addEventListener('click', handleClick);
+    return () => gl.domElement.removeEventListener('click', handleClick);
+  }, [camera, gl, scene]);
+
+  return <primitive object={gltf.scene} scale={1} />;
+};
