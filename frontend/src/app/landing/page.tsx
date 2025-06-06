@@ -36,8 +36,8 @@ const Landing = () => {
 
       {/*NavBar */}
       <div className="w-full text-[#254664] flex ml-45 gap-50 font-mono text-sm">
-        <a href="/signup" className="hover:underline hover:text-[#355C7D] transition-colors">Sign Up</a>
-        <a href="/signin" className="hover:underline hover:text-[#355C7D] transition-colors">Sign In</a>
+        <a href="/signup" className="hover:underline hover:text-[#355C7D] transition-colors">Registrarse</a>
+        <a href="/signin" className="hover:underline hover:text-[#355C7D] transition-colors">Iniciar Sesión</a>
       </div>
 
 
@@ -45,7 +45,7 @@ const Landing = () => {
       {showBanner && (
         <div className="w-full flex justify-center mb-4">
           <div className="bg-gray-100 border border-gray-400 text-gray-700 px-4 py-3 rounded relative" role="alert">
-            <span className="block sm:inline text-xs">Press Space to skip</span>
+            <span className="block sm:inline text-xs">Oprime Espacio para omitir</span>
             <button
               onClick={() => setShowBanner(false)}
               className="absolute top-0 bottom-0 right-0 px-4 py-3"
@@ -76,11 +76,11 @@ const Landing = () => {
       className="relative z-10 bg-white/10 backdrop-blur-lg p-10 rounded-2xl shadow-lg text-center"
     >
       <h1 className="text-7xl font-bold text-white mb-6">
-        Do you have a social media addiction?
+        ¿Tienes una adicción a las redes sociales?
       </h1>
       <Link href="/signin" passHref>
-        <button className="px-6 py-3 bg-gray-200 text-black rounded-lg shadow hover:bg-[#355C7D] hoover:text-white transition-colors">
-          Take the quiz
+        <button className="px-6 py-3 bg-gray-200 text-black rounded-lg shadow hover:bg-[#355C7D] hover:text-white transition-colors">
+          Tomar el test
         </button>
       </Link>
     </motion.div>
@@ -100,7 +100,7 @@ const Landing = () => {
     
     {/* Copyright */}
     <div className="text-sm text-right text-gray-200 px-5">
-      © 2025 <a href="https://github.com/fernandacor/assessment" className="underline hover:text-white">Dinamita Dev</a>. All Rights Reserved.
+      © 2025 <a href="https://github.com/fernandacor/assessment" className="underline hover:text-white">Dinamita Dev</a>. Todos los derechos reservados.
     </div>
     
   </div>

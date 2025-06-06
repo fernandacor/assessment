@@ -75,7 +75,7 @@ export default function SignInForm() {
           htmlFor="email"
           className="block text-sm font-medium leading-6 text-gray-900"
         >
-          E-mail address
+          Correo Electrónico
         </label>
         <input
           id="email"
@@ -90,7 +90,7 @@ export default function SignInForm() {
           className="peer bg-neutral-100/50 mt-2 block w-full rounded-md border-0 px-1.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-500"
         />
         <p className="mt-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
-          Please provide a valid email address.
+          Porfavor ingresa un correo valido.
         </p>
       </div>
 
@@ -115,7 +115,7 @@ export default function SignInForm() {
           className="peer bg-neutral-100/50 mt-2 block w-full rounded-md border-0 px-1.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6 invalid:[&:not(:placeholder-shown):not(:focus)]:ring-red-500"
         />
         <p className="mt-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
-          Please input your password.
+          Porfavor ingresa tu contraseña.
         </p>
       </div>
 
@@ -132,7 +132,7 @@ export default function SignInForm() {
           type="submit"
           className="flex w-full justify-center rounded-md bg-[#355C7D] px-3 py-1.5 text-sm font-bold leading-6 text-white shadow-sm hover:bg-[#C5CAE9] hover:text-[#253c51] focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
         >
-          Sign in
+          Inicar Sesión
         </button>
       </div>
     </form>
