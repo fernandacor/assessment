@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import NumericSlider from "@/components/NumericSlider";
 import Sidebar from "@/components/Sidebar";
 import BotonSiguiente from "@/components/TestButton";
+import Termometro from "@/components/Termometro";
 
 export default function Conflicts() {
   const [isSidebarOpen, setSidebarOpen] = useState(true);
@@ -30,7 +31,7 @@ export default function Conflicts() {
 
         <div className="flex justify-center mt-4 flex-1">
           <div className="w-full max-w-4xl bg-[#444] rounded-2xl shadow-lg p-6 min-h-[65vh] flex items-center justify-center">
-            {/* 3D Model placeholder */}
+            <Termometro conflictos={conflictos}/>
           </div>
         </div>
 
@@ -43,7 +44,7 @@ export default function Conflicts() {
           <div className="w-1/3 flex justify-center">
           <NumericSlider
           label="Conflicts"
-          step={0.5}
+          step={1}
           min={0}
           max={5}
           value={conflictos}
