@@ -1,20 +1,18 @@
 'use client';
 
 import React, { useEffect, useState } from "react";
-import NumericSlider from "@/components/NumericSlider";
 import Sidebar from "@/components/Sidebar";
 import BotonSiguiente from "@/components/TestButton";
+import Relojcito from "@/components/Relojcito";
+import NumericSlider from "@/components/NumericSlider";
 
 export default function DailyUsage() {
   const [isSidebarOpen, setSidebarOpen] = useState(true);
-  const [usage, setUsage] = useState(7);
+  const [usage, setUsage] = useState(0);
 
-  const respuesta = { dailyUsage: usage };
-  console.log("Respuesta de uso diario:", respuesta);
   useEffect(() => {
     localStorage.setItem("dailyUsage", usage.toString());
-  }
-  , [usage]);
+  }, [usage]);
 
   return (
     <div className="flex h-screen w-full text-[#C5CAE9]">
@@ -30,7 +28,7 @@ export default function DailyUsage() {
     
             <div className="flex justify-center mt-4 flex-1">
               <div className="w-full max-w-4xl bg-[#444] rounded-2xl shadow-lg p-6 min-h-[65vh] flex items-center justify-center">
-                {/* 3D Model placeholder */}
+                <Relojcito hour={usage} />
               </div>
             </div>
     
