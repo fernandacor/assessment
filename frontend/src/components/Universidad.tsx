@@ -16,10 +16,10 @@ export default function Universidad() {
 
   return (
     <div className="w-full h-full rounded-xl">
-      <Canvas shadows camera={{position: [-8, 5, 20], fov: 30 }}>
+      <Canvas shadows camera={{position: [0, 2, 23], fov: 20 }}>
         <ambientLight intensity={1} />
         <directionalLight castShadow position={[10,10,10]} />
-        <Suspense fallback={null}>
+        <Suspense>
           <Model />
         </Suspense>
         <OrbitControls />

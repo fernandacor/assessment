@@ -19,8 +19,8 @@ export default function HumanModel({ gender, age}: HumanModelProps) {
 
   return (
     <div className="w-full h-[500px] rounded-xl">
-      <Canvas camera={{ position: [20,5,5] }}>
-        <ambientLight intensity={0.5} />
+      <Canvas camera={{ position: [0,3,10] }}>
+        <ambientLight intensity={2} />
         <directionalLight position={[2, 2, 2]} />
         <Suspense fallback={null}>
           <Model gender={gender} scale={scale} />

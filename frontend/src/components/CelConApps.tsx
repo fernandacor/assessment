@@ -16,7 +16,7 @@ export default function CelSinApps() {
 
   return (
     <div className="w-full h-full rounded-xl">
-      <Canvas camera={{ position: [0, 0, 20], fov: 50 }}>
+      <Canvas camera={{ position: [1, 0, 25], fov: 40 }}>
         <ambientLight intensity={1} />
         <directionalLight position={[2, 2, 2]} />
         <Suspense fallback={null}>
