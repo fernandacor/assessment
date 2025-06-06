@@ -4,17 +4,17 @@ import { useState } from "react";
 
 export default function UserSurveyForm() {
   const [formData, setFormData] = useState({
-    age: "",
-    gender: "Female",
-    academicLevel: "Graduate",
-    country: "USA",
-    avgDailyUsageHours: "",
-    mostUsedPlatform: "Instagram",
-    affectsAcademicPerformance: "Yes",
-    sleepHoursPerNight: "",
-    mentalHealthScore: "",
-    relationshipStatus: "In Relationship",
-    conflictsOverSocialMedia: "",
+    Age: '19',
+    Avg_Daily_Usage_Hours: '7.5',
+    Sleep_Hours_Per_Night: '4.8',
+    Mental_Health_Score: '5',
+    Gender: 'Female',
+    Academic_Level: 'Undergraduate',
+    Country: 'USA',
+    Most_Used_Platform: 'Instagram',
+    Affects_Academic_Performance: 'Yes',
+    Relationship_Status: 'In Relationship',
+    Conflicts_Over_Social_Media: '4',
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -22,38 +22,50 @@ export default function UserSurveyForm() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const [prediction, setPrediction] = useState<string | null>(null);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log(formData)
+    try {
+      console.log("Aquí entra");
+      const response = await fetch("/api/front/eval", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
 
-    // try {
-    //   const response = await fetch("/api/evaluate", {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify(formData),
-    //   });
-
-    //   const result = await response.json();
-    //   console.log("Respuesta del backend:", result);
-
-    //   // Aquí podrías guardar el resultado o mostrarlo en pantalla
-    // } catch (error) {
-    //   console.error("Error al enviar datos:", error);
-    // }
-    console.log("Submit");
+      const result = await response.json();
+        
+      if (response.ok) {
+        console.log("Predicción:", result);
+        setPrediction(result.prediction); // Mostrar en la interfaz
+      } else {
+        console.error("Error desde el backend:", result);
+      }
+    } catch (error) {
+      console.error("Error al enviar datos:", error);
+    }
   };
 
   return (
     <form onSubmit={handleSubmit} className="max-w-xl mx-auto p-6 bg-white shadow rounded space-y-4">
+      {prediction && (
+        <p className="mt-4 text-green-600">
+          Predicción: <strong>{prediction}</strong>
+        </p>
+      )}
+
       <h2 className="text-2xl font-bold mb-4">User Survey</h2>
 
       <label className="block">
         Age:
         <input
           type="number"
-          name="age"
-          value={formData.age}
+          name="Age"
+          value={formData.Age}
           onChange={handleChange}
           className="w-full border p-2 rounded"
           required
@@ -62,7 +74,7 @@ export default function UserSurveyForm() {
 
       <label className="block">
         Gender:
-        <select name="gender" value={formData.gender} onChange={handleChange} className="w-full border p-2 rounded">
+        <select name="Gender" value={formData.Gender} onChange={handleChange} className="w-full border p-2 rounded">
           <option>Female</option>
           <option>Male</option>
         </select>
@@ -71,8 +83,8 @@ export default function UserSurveyForm() {
       <label className="block">
         Academic Level:
         <select
-          name="academicLevel"
-          value={formData.academicLevel}
+          name="Academic_Level"
+          value={formData.Academic_Level}
           onChange={handleChange}
           className="w-full border p-2 rounded">
           <option>Graduate</option>
@@ -83,7 +95,7 @@ export default function UserSurveyForm() {
 
       <label className="block">
         Country:
-        <select name="country" value={formData.country} onChange={handleChange} className="w-full border p-2 rounded">
+        <select name="Country" value={formData.Country} onChange={handleChange} className="w-full border p-2 rounded">
           <option>USA</option>
           <option>UK</option>
           <option>Canada</option>
@@ -95,8 +107,8 @@ export default function UserSurveyForm() {
         <input
           type="number"
           step="0.1"
-          name="avgDailyUsageHours"
-          value={formData.avgDailyUsageHours}
+          name="Avg_Daily_Usage_Hours"
+          value={formData.Avg_Daily_Usage_Hours}
           onChange={handleChange}
           className="w-full border p-2 rounded"
           required
@@ -106,8 +118,8 @@ export default function UserSurveyForm() {
       <label className="block">
         Most Used Platform:
         <select
-          name="mostUsedPlatform"
-          value={formData.mostUsedPlatform}
+          name="Most_Used_Platform"
+          value={formData.Most_Used_Platform}
           onChange={handleChange}
           className="w-full border p-2 rounded">
           <option>Instagram</option>
@@ -121,8 +133,8 @@ export default function UserSurveyForm() {
       <label className="block">
         Affects Academic Performance:
         <select
-          name="affectsAcademicPerformance"
-          value={formData.affectsAcademicPerformance}
+          name="Affects_Academic_Performance"
+          value={formData.Affects_Academic_Performance}
           onChange={handleChange}
           className="w-full border p-2 rounded">
           <option>Yes</option>
@@ -135,8 +147,8 @@ export default function UserSurveyForm() {
         <input
           type="number"
           step="0.1"
-          name="sleepHoursPerNight"
-          value={formData.sleepHoursPerNight}
+          name="Sleep_Hours_Per_Night"
+          value={formData.Sleep_Hours_Per_Night}
           onChange={handleChange}
           className="w-full border p-2 rounded"
           required
@@ -147,8 +159,8 @@ export default function UserSurveyForm() {
         Mental Health Score:
         <input
           type="number"
-          name="mentalHealthScore"
-          value={formData.mentalHealthScore}
+          name="Mental_Health_Score"
+          value={formData.Mental_Health_Score}
           onChange={handleChange}
           className="w-full border p-2 rounded"
           required
@@ -158,8 +170,8 @@ export default function UserSurveyForm() {
       <label className="block">
         Relationship Status:
         <select
-          name="relationshipStatus"
-          value={formData.relationshipStatus}
+          name="Relationship_Status"
+          value={formData.Relationship_Status}
           onChange={handleChange}
           className="w-full border p-2 rounded">
           <option>In Relationship</option>
@@ -172,8 +184,8 @@ export default function UserSurveyForm() {
         Conflicts Over Social Media:
         <input
           type="number"
-          name="conflictsOverSocialMedia"
-          value={formData.conflictsOverSocialMedia}
+          name="Conflicts_Over_Social_Media"
+          value={formData.Conflicts_Over_Social_Media}
           onChange={handleChange}
           className="w-full border p-2 rounded"
           required
