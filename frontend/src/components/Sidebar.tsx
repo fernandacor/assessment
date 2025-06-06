@@ -58,9 +58,6 @@ export default function Sidebar({
           isOpen={isOpen}
           href="/profile"
         />
-        <SidebarItem icon={<FileText />} label="Archivos" isOpen={isOpen} />
-
-        {/* Ítem de Logout pasa onClick en lugar de href */}
         <SidebarItem
           icon={<LogOut />}
           label="Log Out"
