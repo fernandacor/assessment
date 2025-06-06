@@ -17,11 +17,11 @@ export default function MentalHealth() {
   , [mentalHealth]);
 
   return (
-    <div className="flex h-screen w-full text-white">
+    <div className="flex h-screen w-full text-[#C5CAE9]">
       <Sidebar isOpen={!isSidebarOpen} toggle={() => setSidebarOpen(!isSidebarOpen)} />
       
-      <div className="flex flex-col h-full w-full bg-purple-800 p-8">
-        <h1 className="text-2xl font-bold mb-6">Mental Health Score</h1>
+      <div className="flex flex-col h-full w-full bg-[#333333] p-8">
+        <h1 className="text-2xl font-bold mb-6 text-center">Self-rated Mental Health Score</h1>
 
         <NumericSlider
           label="Self-rated Mental Health Score"
@@ -30,7 +30,9 @@ export default function MentalHealth() {
           value={mentalHealth}
           onChange={setMentalHealth}
         />
-        <BotonSiguiente respondido={true} />
+        <div className="mt-auto self-end">
+            <BotonSiguiente respondido={true} />
+              </div>
       </div>
     </div>
   );

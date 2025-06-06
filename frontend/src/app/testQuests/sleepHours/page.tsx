@@ -17,11 +17,11 @@ export default function SleepHours() {
   , [sleepHours]);
 
   return (
-    <div className="flex h-screen w-full text-white">
+    <div className="flex h-screen w-full text-[#C5CAE9]">
       <Sidebar isOpen={!isSidebarOpen} toggle={() => setSidebarOpen(!isSidebarOpen)} />
       
-      <div className="flex flex-col h-full w-full bg-purple-800 p-8">
-        <h1 className="text-2xl font-bold mb-6">Sleep Hours</h1>
+      <div className="flex flex-col h-full w-full bg-[#333333] p-8">
+        <h1 className="text-2xl font-bold mb-6 text-center">Average nightly sleep hours</h1>
 
         <NumericSlider
           label="Sleep Hours"
@@ -31,9 +31,9 @@ export default function SleepHours() {
           value={sleepHours}
           onChange={setSleepHours}
         />
-      </div>
-      <div>
-        <BotonSiguiente respondido={true} />
+        <div className="mt-auto self-end">
+          <BotonSiguiente respondido={true} />
+            </div>
       </div>
     </div>
   );

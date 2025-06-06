@@ -14,10 +14,10 @@ export default function Relationship() {
     , [relationshipStatus]);
 
     return (
-    <div className="flex h-screen w-full text-white">
+    <div className="flex h-screen w-full text-[#C5CAE9]">
         <Sidebar isOpen={!isSidebarOpen} toggle={() => setSidebarOpen(!isSidebarOpen)} />
-        <div className="flex flex-col h-auto w-full bg-yellow-700 p-8">
-            <h1 className="text-2xl font-bold mb-6">Relationship Status </h1>
+        <div className="flex flex-col h-auto w-full bg-[#333333] p-8">
+            <h1 className="text-2xl font-bold mb-6 text-center">Relationship Status </h1>
             <div className="flex flex-1">
           <button className="flex-1 bg-green-300 text-black text-2xl font-semibold hover:bg-green-500 transition-all duration-200"
             onClick={() => setRelationshipStatus("Single")}>
@@ -31,10 +31,10 @@ export default function Relationship() {
             onClick={() => setRelationshipStatus("In a Relationship")}>
             In a Relationship
           </button>
+          <div className="mt-auto self-end">
+            <BotonSiguiente respondido={true} />
+              </div>
         </div>
-        </div>
-        <div>
-          <BotonSiguiente respondido={relationshipStatus !== ""} />
         </div>
     </div>
     );
