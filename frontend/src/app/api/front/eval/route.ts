@@ -1,5 +1,6 @@
 export async function POST(req: Request) {
-    console.log("Llega acá?")
+  console.log("NEXT_PUBLIC_BACKEND_URL:", process.env.NEXT_PUBLIC_BACKEND_URL);
+
   try {
     const body = await req.json();
 

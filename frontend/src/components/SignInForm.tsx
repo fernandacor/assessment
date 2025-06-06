@@ -1,8 +1,8 @@
 // src/components/SignInForm.tsx
 "use client";
 
-import React, { useState } from "react";
 import { useRouter } from "next/navigation";
+import React, { useState } from "react";
 
 interface FormValues {
   email: string;
@@ -26,7 +26,7 @@ export default function SignInForm() {
 
     try {
       // 1) Llamamos a nuestra ruta Next: /api/auth/signin
-      const res = await fetch("/api/auth/signin", {
+      const res = await fetch("/api/front/auth/signin", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

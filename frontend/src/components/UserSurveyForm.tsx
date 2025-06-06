@@ -29,7 +29,7 @@ export default function UserSurveyForm() {
 
     try {
       console.log("Aquí entra");
-      const response = await fetch("/api/evaluate", {
+      const response = await fetch("/api/front/eval", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
