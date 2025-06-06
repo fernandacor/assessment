@@ -21,20 +21,20 @@ export function useAuthGuard() {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
-      window.location.replace("/signin");
+      window.location.replace("/landing");
       return;
     }
 
     const decoded = parseJwt(token);
     if (!decoded || typeof decoded.exp !== "number") {
       localStorage.removeItem("token");
-      window.location.replace("/signin");
+      window.location.replace("/landing");
       return;
     }
 
     if (decoded.exp < Math.floor(Date.now() / 1000)) {
       localStorage.removeItem("token");
-      window.location.replace("/signin");
+      window.location.replace("/landing");
       return;
     }
 
@@ -45,7 +45,7 @@ export function useAuthGuard() {
   useEffect(() => {
     function onStorage(e: StorageEvent) {
       if (e.key === "token" && e.newValue === null) {
-        window.location.replace("/signin");
+        window.location.replace("/landing");
       }
     }
     window.addEventListener("storage", onStorage);
@@ -57,7 +57,7 @@ export function useAuthGuard() {
     const interval = setInterval(() => {
       if (!localStorage.getItem("token")) {
         clearInterval(interval);
-        window.location.replace("/signin");
+        window.location.replace("/landing");
       }
     }, 200); // cada 0.5 segundos
 
