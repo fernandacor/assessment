@@ -356,6 +356,80 @@ for i in range(3):
 # for i in range(3):
 #     evaluate_model(models[i], test_loader)
 
+# 1) Tomar el diccionario con valores sin procesar
+row = {
+  "Age": 19,
+  "Avg_Daily_Usage_Hours": 7.5,
+  "Sleep_Hours_Per_Night": 6.2,
+  "Mental_Health_Score": 3.0,  # si existiera esa columna, por ejemplo
+  "Gender": "Female",
+  "Academic_Level": "Undergraduate",
+  "Country": "USA",
+  "Most_Used_Platform": "Instagram",
+  "Affects_Academic_Performance": "Yes",
+  "Relationship_Status": "In Relationship",
+  "Conflicts_Over_Social_Media": 4,
+}
+
+# 2) Lo convertimos a DataFrame de una sola fila
+df_row = pd.DataFrame([row])
+
+# 3) Aplicar get_dummies usando exactamente las mismas columnas que en entrenamiento:
+categorical_cols = [
+    'Gender',
+    'Academic_Level',
+    'Country',
+    'Most_Used_Platform',
+    'Affects_Academic_Performance',
+    'Relationship_Status'
+]
+
+# A) Hacemos get_dummies sobre esa fila:
+df_row_encoded = pd.get_dummies(df_row, columns=categorical_cols, drop_first=True)
+
+# B) Para asegurarnos de que tenga todas las columnas que tuvo df_encoded en entrenamiento,
+#    hacemos reindex con relleno de 0 en las que falten:
+all_columns = df_encoded.columns.tolist()  # lista que obtuviste en tu script de entrenamiento
+df_row_aligned = df_row_encoded.reindex(columns=all_columns, fill_value=0)
+
+# 4) Finalmente sacamos un vector numpy de longitud n_input:
+input_vector = df_row_aligned.values.flatten().tolist()  # lista de tamaño n_input
+
+def infer_crop(input_vector, model, scaler, label_encoder):
+    """
+    input_vector: lista o numpy array de longitud EXACTA n_input (columnas post get_dummies).
+    model:         instancia de tu Classifier(layers3) con pesos cargados.
+    scaler:        StandardScaler ya entrenado, tal que scaler.scale_ existe.
+    label_encoder: LabelEncoder ya entrenado para Addicted_Score.
+    """
+    model.eval()
+
+    # 4.1) Convertir a numpy array con shape (1, n_input)
+    arr = np.array(input_vector, dtype=float).reshape(1, -1)  # p.ej. (1, 50)
+
+    # 4.2) Escalar con el mismo scaler de entrenamiento
+    arr_scaled = scaler.transform(arr)  # shape (1, n_input)
+
+    # 4.3) Pasar a tensor de PyTorch
+    input_tensor = torch.tensor(arr_scaled, dtype=torch.float32)  # shape (1, n_input)
+
+    # 4.4) Inferencia
+    with torch.no_grad():
+        logits = model(input_tensor)                 # shape (1, n_classes)
+        pred_idx = torch.argmax(logits, dim=1).item()  # índice de la clase (int)
+
+    # 4.5) Convertir índice a etiqueta real (Addicted_Score) con el label_encoder
+    pred_label = label_encoder.inverse_transform([pred_idx])[0]
+    return pred_label
+
+# 5) Llamar a infer_crop con ese input_vector
+pred = infer_crop(input_vector, models[2], scaler, label_encoder)
+print("Predicción para esa fila:", pred)
+
+
+
 torch.save(models[2].state_dict(), "../inference/app/model.pt")
 joblib.dump(scaler, "../inference/app/scaler.pkl")
 joblib.dump(label_encoder, "../inference/app/label_encoder.pkl")
+all_columns = df_encoded.columns.tolist()
+joblib.dump(all_columns, "../inference/app/all_columns.pkl")

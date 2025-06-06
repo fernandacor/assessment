@@ -3,12 +3,9 @@ import torch
 import torch.nn as nn
 import pandas as pd
 import joblib
+import numpy as np
 
-# Cargar modelo y herramientas
-scaler = joblib.load("app/scaler.pkl")
-label_encoder = joblib.load("app/label_encoder.pkl")
-
-# Modelo igual al entrenado
+# 1) Definir la arquitectura EXACTA usada en entrenamiento
 class Classifier(nn.Module):
     def __init__(self, input_size, n_classes):
         super().__init__()
@@ -26,9 +23,15 @@ class Classifier(nn.Module):
         x = x.view(x.size(0), -1)
         return self.encoder(x)
 
-# Inicializar modelo
-input_size = scaler.mean_.shape[0]
-n_classes = len(label_encoder.classes_)
+# 2) Cargar scaler, label_encoder y all_columns desde disco
+scaler = joblib.load("app/scaler.pkl")
+label_encoder = joblib.load("app/label_encoder.pkl")
+all_columns = joblib.load("app/all_columns.pkl")
+
+input_size = int(scaler.mean_.shape[0])
+n_classes  = int(len(label_encoder.classes_))
+
+# 3) Reconstruir el modelo, cargar pesos, poner en modo eval
 model = Classifier(input_size, n_classes)
 model.load_state_dict(torch.load("app/model.pt", map_location=torch.device("cpu")))
 model.eval()
@@ -38,23 +41,54 @@ app = Flask(__name__)
 @app.route("/predict", methods=["POST"])
 def predict():
     data = request.json
+
     try:
+        # ── 1) Convertir los campos numéricos de string a número ───────────────
+        data["Age"]                    = int(data["Age"])
+        data["Avg_Daily_Usage_Hours"]  = float(data["Avg_Daily_Usage_Hours"])
+        data["Sleep_Hours_Per_Night"]  = float(data["Sleep_Hours_Per_Night"])
+        data["Mental_Health_Score"]    = float(data["Mental_Health_Score"])
+        data["Conflicts_Over_Social_Media"] = int(data["Conflicts_Over_Social_Media"])
+
+        
         df = pd.DataFrame([data])
-        df_encoded = pd.get_dummies(df)
 
-        for col in scaler.feature_names_in_:
-            if col not in df_encoded:
-                df_encoded[col] = 0
-        df_encoded = df_encoded[scaler.feature_names_in_]
+        # ── 3) One-hot encoding + reindex (llenar con 0 si faltan columnas) ─────
+        categorical_cols = [
+            'Gender',
+            'Academic_Level',
+            'Country',
+            'Most_Used_Platform',
+            'Affects_Academic_Performance',
+            'Relationship_Status'
+        ]
+        df_row_encoded = pd.get_dummies(df, columns=categorical_cols, drop_first=True)
 
-        X = scaler.transform(df_encoded)
+        df_row_aligned = df_row_encoded.reindex(columns=all_columns, fill_value=0)
+
+        # ── 4) Escalar con el StandardScaler entrenado ─────────────────────────────
+        X = scaler.transform(df_row_aligned)
+        print(">>> X tras scaler (shape):", X.shape, X)
+
         X_tensor = torch.tensor(X, dtype=torch.float32)
 
+        # ── 5) Inferencia con PyTorch ────────────────────────────────────────────
+        print(">>> Paso 5: Inferencia")
         with torch.no_grad():
-            output = model(X_tensor)
-            pred_idx = torch.argmax(output, dim=1).item()
-            label = label_encoder.inverse_transform([pred_idx])[0]
+            out = model(X_tensor)
+            pred_idx = torch.argmax(out, dim=1).item()
+            label_np = label_encoder.inverse_transform([pred_idx])[0]
+            # label_np es ahora np.int64 o np.str_ si tu LabelEncoder contenía strings.
 
-        return jsonify({"prediction": label.item() if hasattr(label, 'item') else str(label)})
+        # ── 6) Asegurar que sea tipo nativo de Python (int o str) ────────────────
+        if isinstance(label_np, np.generic):
+            label_py = label_np.item()   # np.int64 → int nativo, np.str_ → str nativo
+        else:
+            label_py = label_np          # si ya era str de Python
+
+        # ── 7) Devolver JSON con valor puro de Python ────────────────────────────
+        return jsonify({"prediction": label_py.item() if hasattr(label_py, 'item') else str(label_py)})
+
     except Exception as e:
+        print(">>> ERROR en predict():", str(e), type(e))
         return jsonify({"error": str(e)}), 400

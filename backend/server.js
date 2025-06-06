@@ -209,6 +209,8 @@ app.delete("/api/users/:id", async (request, response) => {
 
 app.post("/api/eval", async (req, res) => {
     try {
+        console.log(req.body);
+        console.log(JSON.stringify(req.body))
         const flaskResponse = await fetch("http://inference:5000/predict", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -216,6 +218,8 @@ app.post("/api/eval", async (req, res) => {
         });
 
         const prediction = await flaskResponse.json();
+
+        console.log(prediction);
 
         res.json(prediction);
     } catch (err) {
