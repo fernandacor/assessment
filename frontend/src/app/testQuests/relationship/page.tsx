@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Sidebar from "@/components/Sidebar";
 import BotonSiguiente from "@/components/TestButton";
+import Corazoncito from "@/components/Corazoncito";
 
 export default function Relationship() {
   const [isSidebarOpen, setSidebarOpen] = useState(true);
@@ -25,26 +26,10 @@ export default function Relationship() {
           Relationship Status
         </h1>
 
-        {/* Big buttons row */}
-        <div className="flex flex-1 gap-4">
-          <button
-            className="flex-1 bg-green-300 text-black text-2xl font-semibold hover:bg-green-500 transition-all duration-200 rounded-xl py-6"
-            onClick={() => setRelationshipStatus("Single")}
-          >
-            Single
-          </button>
-          <button
-            className="flex-1 bg-red-300 text-black text-2xl font-semibold hover:bg-red-500 transition-all duration-200 rounded-xl py-6"
-            onClick={() => setRelationshipStatus("Complicated")}
-          >
-            Complicated
-          </button>
-          <button
-            className="flex-1 bg-red-300 text-black text-2xl font-semibold hover:bg-red-500 transition-all duration-200 rounded-xl py-6"
-            onClick={() => setRelationshipStatus("In a Relationship")}
-          >
-            In a Relationship
-          </button>
+        <div className="flex justify-center mt-4 flex-1">
+          <div className="w-full max-w-4xl bg-[#444] rounded-2xl shadow-lg p-6 min-h-[65vh] flex items-center justify-center">
+            <Corazoncito/>
+          </div>
         </div>
 
         {/* Next button at bottom-right */}
