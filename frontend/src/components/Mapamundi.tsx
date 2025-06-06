@@ -16,7 +16,7 @@ export default function Mapamundi() {
 
   return (
     <div className="w-full h-full rounded-xl">
-      <Canvas shadows camera={{position: [-2, 0, 15], fov: 10 }}>
+      <Canvas shadows camera={{position: [-2, 0, 17], fov: 10 }}>
         <ambientLight intensity={1} />
         <directionalLight castShadow position={[10,10,10]} />
         <Suspense fallback={null}>
