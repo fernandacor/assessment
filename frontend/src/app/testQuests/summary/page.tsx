@@ -39,22 +39,24 @@ const SummaryPage = () => {
   }, []);
 
   return (
-    <div>
-      <h1>Resumen de tus respuestas</h1>
+    <div className="flex flex-col items-center justify-center h-screen bg-[#333333] text-[#C5CAE9] p-8">
 
-      <div style={{ fontSize: "1.5rem", marginBottom: "1rem" }}>
+      <div className="shadow-lg shadow-[#A8E6CF]/50 bg-[#444] rounded-2xl p-6 mb-8 flex items-center justify-center font-bold text-2xl">
         <motion.span>{displayText}</motion.span>
         <CursorBlinker />
       </div>
 
       
-      <ul>
-        {preguntas.map((key) => (
-          <li key={key}>
-            <strong>{key}:</strong> {answers[key]}
-          </li>
-        ))}
-      </ul>
+      {/* Subtle Answers List */}
+      <div className="w-full max-w-xl bg-[#444]/30 p-6 rounded-2xl shadow-inner border border-[#C5CAE9]/20 text-sm overflow-hidden max-h-[40vh] mt-10">
+        <ul className="space-y-1 text-[#C5CAE9]/80">
+          {preguntas.map((key) => (
+            <li key={key}>
+              <span className="font-medium text-[#C5CAE9]">{key}</span>: {answers[key]}
+            </li>
+          ))}
+        </ul>
+      </div>
 
     </div>
   );
