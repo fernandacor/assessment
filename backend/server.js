@@ -100,14 +100,12 @@ app.get("/api/users", async (request, response) => {
 
 app.post("/api/users", async (req, res) => {
     try {
+        console.log(req.body);
         const {
             email,
             password,
             confirmPassword,
-            name,
-            surname,
-            address,
-            birthdate,
+            username,
         } = req.body;
 
         // 1) Validación básica de campos:
@@ -115,10 +113,7 @@ app.post("/api/users", async (req, res) => {
             !email ||
             !password ||
             !confirmPassword ||
-            !name ||
-            !surname ||
-            !address ||
-            !birthdate
+            !username
         ) {
             return res
                 .status(400)
@@ -146,11 +141,7 @@ app.post("/api/users", async (req, res) => {
         const newUser = {
             usuario: email,           // tu campo “usuario” en la colección “users”
             contrasena: hashedPassword,
-            nombre: name,
-            apellidoPaterno: surname, // si quisieras apellidoMaterno, podrías añadirlo
-            // Si quieres separar “surname” en paterno/materno, ajusta aquí:
-            address,
-            birthdate: new Date(birthdate),
+            username: username,
             createdAt: new Date(),
         };
 
