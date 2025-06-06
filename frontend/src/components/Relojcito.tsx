@@ -2,7 +2,7 @@
 
 import React, { Suspense, useEffect, useRef, useState } from 'react';
 import { Canvas } from '@react-three/fiber';
-import { useGLTF } from '@react-three/drei';
+import { OrbitControls, useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
 
 interface RelojcitoProps {
@@ -17,6 +17,7 @@ export default function Relojcito({ hour }: RelojcitoProps) {
         <Suspense fallback={null}>
           <Model hour={hour} />
         </Suspense>
+        <OrbitControls/>
       </Canvas>
     </div>
   );
