@@ -6,7 +6,7 @@ interface TypingTextProps {
 }
 
 const TypingText: React.FC<TypingTextProps> = ({ onTypingDone }) => {
-  const introText = `Social networks are a set of websites and applications that enable individuals and communities to connect, discuss and exchange information, and/or produce and share contents. Today, due to the rapid advancement of technology and the typical effortless access to smartphones, the use of social networks has been growing expeditiously.
+  const introText = `Social networks are a set of websites and applications that enable individuals and communities to connect, discuss and exchange information, and/or produce and share contents. Today, due to the rapid advancement of technology and the typical effortless access to smartphones, the use of social networks has been growing expeditiously.\n\n\
 A big proportion of social network users are university students. The use of these networks can have both positive and negative effects on students' academic performance. However, based on a study by Woods et al. that the adverse effects of these networks outweigh the positive effects \n`;
 
   const linkText =
@@ -64,10 +64,10 @@ A big proportion of social network users are university students. The use of the
   const typedLink = isLinkTyped ? linkText : "";
 
   return (
-    <p className="whitespace-pre-wrap font-mono text-sm font-bold text-white items-center text-center">
+    <p className="whitespace-pre-wrap font-mono text-sm font-bold text-[#355C7D] items-center text-left leading-loose">
       {typedIntro}
       {typedLink ? (
-        <a href={linkUrl} target="_blank" rel="noopener noreferrer" className="hover:underline italic text-xs">
+        <a href={linkUrl} target="_blank" rel="noopener noreferrer" className="hover:underline italic text-sm">
           {typedLink}
         </a>
       ) : (
