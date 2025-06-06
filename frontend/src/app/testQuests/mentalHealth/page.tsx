@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import NumericSlider from "@/components/NumericSlider";
 import Sidebar from "@/components/Sidebar";
 import BotonSiguiente from "@/components/TestButton";
+import Brain from '@/components/Brain'
 
 export default function MentalHealth() {
   const [isSidebarOpen, setSidebarOpen] = useState(true);
@@ -27,7 +28,7 @@ export default function MentalHealth() {
 
         <div className="flex justify-center mt-4 flex-1">
           <div className="w-full max-w-4xl bg-[#444] rounded-2xl shadow-lg p-6 min-h-[65vh] flex items-center justify-center">
-            {/* 3D Model placeholder */}
+            <Brain mentalHealth={mentalHealth}/>
           </div>
         </div>
 
