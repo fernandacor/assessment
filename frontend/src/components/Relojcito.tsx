@@ -1,25 +1,17 @@
 'use client';
 
-import React, { Suspense, useState } from 'react';
+import React, { Suspense, useEffect, useRef, useState } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
-import NumericSlider from './NumericSlider'; // asegúrate de que el path esté correcto
 
-export default function Relojcito() {
-  const [hour, setHour] = useState(0);
+interface RelojcitoProps {
+  hour: number;
+}
 
+export default function Relojcito({ hour }: RelojcitoProps) {
   return (
-    <div className="w-full h-screen bg-black text-white relative">
-      <div className="absolute top-4 left-4 z-10 w-80">
-        <NumericSlider
-          label="Selecciona la hora"
-          min={0}
-          max={24}
-          value={hour}
-          onChange={setHour}
-        />
-      </div>
+    <div className="w-full h-[500px] bg-white text-black relative">
       <Canvas camera={{ position: [0, 0, 10], fov: 30 }}>
         <ambientLight intensity={1} />
         <Suspense fallback={null}>
@@ -32,30 +24,29 @@ export default function Relojcito() {
 
 function Model({ hour }: { hour: number }) {
   const gltf = useGLTF('/models/relojcito.glb');
-  const relojRef = React.useRef<THREE.Object3D | null>(null);
-  const manecillaRef = React.useRef<THREE.Object3D | null>(null);
+  const [reloj, setReloj] = useState<THREE.Object3D | null>(null);
+  const [manecilla, setManecilla] = useState<THREE.Object3D | null>(null);
 
-  React.useEffect(() => {
-    const reloj = gltf.scene.getObjectByName('Reloj');
-    const manecilla = gltf.scene.getObjectByName('Manecilla');
-    if (reloj && manecilla) {
-      relojRef.current = reloj.clone();
-      manecillaRef.current = manecilla.clone();
+  useEffect(() => {
+    const relojObj = gltf.scene.getObjectByName('Reloj')?.clone();
+    const manecillaObj = gltf.scene.getObjectByName('Manecilla')?.clone();
+    if (relojObj && manecillaObj) {
+      setReloj(relojObj);
+      setManecilla(manecillaObj);
     }
   }, [gltf]);
 
-  // Actualizar rotación de manecilla cuando cambia la hora
-  React.useEffect(() => {
-    if (manecillaRef.current) {
-      const angle = -Math.PI / 2 + (hour * (Math.PI / 6)); // empieza en 12h (arriba)
-      manecillaRef.current.rotation.z = angle;
+  useEffect(() => {
+    if (manecilla) {
+      const angle = -Math.PI / 2 + hour * (Math.PI / 12); // 0h = 12h en punto
+      manecilla.rotation.z = angle;
     }
-  }, [hour]);
+  }, [hour, manecilla]);
 
   return (
     <>
-      {relojRef.current && <primitive object={relojRef.current} />}
-      {manecillaRef.current && <primitive object={manecillaRef.current} />}
+      {reloj && <primitive object={reloj} />}
+      {manecilla && <primitive object={manecilla} />}
     </>
   );
 }
