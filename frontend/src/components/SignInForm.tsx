@@ -132,7 +132,7 @@ export default function SignInForm() {
           type="submit"
           className="flex w-full justify-center rounded-md bg-[#355C7D] px-3 py-1.5 text-sm font-bold leading-6 text-white shadow-sm hover:bg-[#C5CAE9] hover:text-[#253c51] focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
         >
-          Inicar Sesión
+          Iniciar Sesión
         </button>
       </div>
     </form>

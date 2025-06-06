@@ -78,7 +78,7 @@ const Landing = () => {
       <h1 className="text-7xl font-bold text-white mb-6">
         ¿Tienes una adicción a las redes sociales?
       </h1>
-      <Link href="/signin" passHref>
+      <Link href="/testQuests/age" passHref>
         <button className="px-6 py-3 bg-gray-200 text-black rounded-lg shadow hover:bg-[#355C7D] hover:text-white transition-colors">
           Tomar el test
         </button>

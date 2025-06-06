@@ -50,7 +50,7 @@ export default function Sidebar({
           icon={<Home />}
           label="Home"
           isOpen={isOpen}
-          href="/"
+          href="/landing"
         />
         <SidebarItem
           icon={<User />}
@@ -58,32 +58,6 @@ export default function Sidebar({
           isOpen={isOpen}
           href="/profile"
         />
-        <SidebarItem
-          icon={<Grape />}
-          label="Preguntas Grid"
-          isOpen={isOpen}
-          href="/preguntasGrid"
-        />
-        <SidebarItem icon={<FileText />} label="Archivos" isOpen={isOpen} />
-        <SidebarItem
-          icon={<Settings />}
-          label="Configuración"
-          isOpen={isOpen}
-          href="/configuracion"
-        />
-        <SidebarItem
-          icon={<LogIn />}
-          label="Sign In"
-          isOpen={isOpen}
-          href="/signin"
-        />
-        <SidebarItem
-          icon={<Code />}
-          label="Sign Up"
-          isOpen={isOpen}
-          href="/signup"
-        />
-        {/* Ítem de Logout pasa onClick en lugar de href */}
         <SidebarItem
           icon={<LogOut />}
           label="Log Out"
