@@ -23,7 +23,7 @@ export default function AcademicPerformance() {
     
           {/* Main content */}
           <div className="flex flex-col flex-1 bg-[#333333] p-8 relative">
-            <h1 className="text-2xl font-bold mb-6 text-center">Average hours per day on social media</h1>
+            <h1 className="text-2xl font-bold mb-6 text-center">Has it affected your academic performance?</h1>
     
             <div className="flex justify-center mt-4 flex-1">
               <div className="w-full max-w-4xl bg-[#444] rounded-2xl shadow-lg p-6 min-h-[65vh] flex items-center justify-center">

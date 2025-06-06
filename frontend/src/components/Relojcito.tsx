@@ -11,8 +11,8 @@ interface RelojcitoProps {
 
 export default function Relojcito({ hour }: RelojcitoProps) {
   return (
-    <div className="w-full h-[500px] bg-white text-black relative">
-      <Canvas camera={{ position: [0, 0, 10], fov: 30 }}>
+    <div className="w-full h-full rounded-xl">
+      <Canvas camera={{ position: [0, 0, 10], fov: 25 }}>
         <ambientLight intensity={1} />
         <Suspense fallback={null}>
           <Model hour={hour} />
