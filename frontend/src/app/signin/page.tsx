@@ -18,7 +18,7 @@ export default function SignIn() {
     
 
       {/* Sign-in card */}
-      <div className="relative flex flex-col flex-initial w-2xl h-2/3 mt-20 items-center bg-gray-100/50 rounded-xl mx-auto dark:bg-stone-700/25 z-10 shadow-lg backdrop-blur-md">
+      <div className="relative flex flex-col flex-initial w-2xl h-auto mt-20 items-center bg-gray-100/50 rounded-xl mx-auto dark:bg-stone-700/25 z-10 shadow-lg backdrop-blur-md">
         <div className="mx-auto w-full max-w-sm">
           <h2 className="mt-10 text-center text-2xl font-light leading-9 tracking-tight text-lightest">
             Inicia sesión en tu cuenta
@@ -28,7 +28,7 @@ export default function SignIn() {
         <div className="mx-auto mt-10 w-full max-w-sm">
           <SignInForm />
 
-          <p className="mt-10 text-center text-sm text-gray-500">
+          <p className="mt-5 mb-5 text-center text-sm text-gray-500">
             Aun no tienes cuenta?{' '}
             <Link
               href="/signup"
