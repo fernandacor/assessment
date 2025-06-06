@@ -22,30 +22,42 @@ export default function UserSurveyForm() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const [prediction, setPrediction] = useState<string | null>(null);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // try {
-    //   const response = await fetch("/api/evaluate", {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify(formData),
-    //   });
+    try {
+      console.log("Aquí entra");
+      const response = await fetch("/api/evaluate", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
 
-    //   const result = await response.json();
-    //   console.log("Respuesta del backend:", result);
+      const result = await response.json();
 
-    //   // Aquí podrías guardar el resultado o mostrarlo en pantalla
-    // } catch (error) {
-    //   console.error("Error al enviar datos:", error);
-    // }
-    console.log("Submit");
+      if (response.ok) {
+        console.log("Predicción:", result);
+        setPrediction(result.prediction); // Mostrar en la interfaz
+      } else {
+        console.error("Error desde el backend:", result);
+      }
+    } catch (error) {
+      console.error("Error al enviar datos:", error);
+    }
   };
 
   return (
     <form onSubmit={handleSubmit} className="max-w-xl mx-auto p-6 bg-white shadow rounded space-y-4">
+      {prediction && (
+        <p className="mt-4 text-green-600">
+          Predicción: <strong>{prediction}</strong>
+        </p>
+      )}
+
       <h2 className="text-2xl font-bold mb-4">User Survey</h2>
 
       <label className="block">

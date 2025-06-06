@@ -7,6 +7,7 @@ import fs from "fs";
 import https from "https";
 import jwt from "jsonwebtoken";
 import { MongoClient, ServerApiVersion } from "mongodb";
+import fetch from "node-fetch";
 
 dotenv.config();
 let db;
@@ -205,6 +206,24 @@ app.delete("/api/users/:id", async (request, response) => {
         response.sendStatus(401);
     }
 });
+
+app.post("/api/eval", async (req, res) => {
+    try {
+        const flaskResponse = await fetch("http://localhost:5000/predict", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(req.body),
+        });
+
+        const prediction = await flaskResponse.json();
+
+        res.json(prediction);
+    } catch (err) {
+        console.error("Error al comunicar con el modelo:", err);
+        res.status(500).json({ error: "Error interno al evaluar el modelo." });
+    }
+});
+
 
 app.get('/api/hello', (req, res) => {
     res.send(`Hola desde ${process.env.INSTANCE_NAME || 'backend genérico'}\n`);

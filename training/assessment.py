@@ -9,6 +9,7 @@ from sklearn.metrics import confusion_matrix, classification_report
 import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
+import joblib
 
 path = './Students_Social_Media_Addiction_Duplicated.csv'
 
@@ -207,150 +208,154 @@ for i in range(3):
     val_losses.append(val_loss)
 
 # Hacer gráficas de la evolución de las pérdidas
-plt.figure(figsize=(10, 6))
+# plt.figure(figsize=(10, 6))
 
-for i in range(3):
-    epochs = list(range(1, len(train_losses[i]) + 1))
+# for i in range(3):
+#     epochs = list(range(1, len(train_losses[i]) + 1))
 
-    plt.plot(epochs, train_losses[i], label=f'Modelo {i+1} - Train')
-    plt.plot(epochs, val_losses[i], linestyle='--', label=f'Modelo {i+1} - Val')
+#     plt.plot(epochs, train_losses[i], label=f'Modelo {i+1} - Train')
+#     plt.plot(epochs, val_losses[i], linestyle='--', label=f'Modelo {i+1} - Val')
 
-plt.xlabel("Época")
-plt.ylabel("Pérdida")
-plt.title("Evolución de la pérdida por modelo")
-plt.legend()
-plt.grid(True)
-plt.tight_layout()
-plt.show()
+# plt.xlabel("Época")
+# plt.ylabel("Pérdida")
+# plt.title("Evolución de la pérdida por modelo")
+# plt.legend()
+# plt.grid(True)
+# plt.tight_layout()
+# plt.show()
 
-# Función para obtener la matriz de confusión
+# # Función para obtener la matriz de confusión
 
-def evaluate_model(model, test_loader, n_classes):
-    model.eval()
-    confusion = np.zeros((n_classes, n_classes), dtype=int)
+# def evaluate_model(model, test_loader, n_classes):
+#     model.eval()
+#     confusion = np.zeros((n_classes, n_classes), dtype=int)
 
-    with torch.no_grad():
-        for input_data, target_data in test_loader:
-            outputs = model(input_data)
-            preds = torch.argmax(F.softmax(outputs, dim=1), dim=1)
+#     with torch.no_grad():
+#         for input_data, target_data in test_loader:
+#             outputs = model(input_data)
+#             preds = torch.argmax(F.softmax(outputs, dim=1), dim=1)
 
-            for true_label, pred_label in zip(target_data, preds):
-                confusion[true_label.item(), pred_label.item()] += 1
+#             for true_label, pred_label in zip(target_data, preds):
+#                 confusion[true_label.item(), pred_label.item()] += 1
 
-    return confusion
+#     return confusion
 
-# Función para obtener las métricas
+# # Función para obtener las métricas
 
-def classification_metrics(conf_mtx):
-    tp = np.diag(conf_mtx)
-    fp = np.sum(conf_mtx, axis=0) - tp
-    fn = np.sum(conf_mtx, axis=1) - tp
-    precision = np.divide(tp, tp + fp, out=np.zeros_like(tp, dtype=float), where=(tp + fp) != 0)
-    recall = np.divide(tp, tp + fn, out=np.zeros_like(tp, dtype=float), where=(tp + fn) != 0)
-    f1 = np.divide(2 * precision * recall, precision + recall, out=np.zeros_like(tp, dtype=float), where=(precision + recall) != 0)
-    accuracy = np.sum(tp) / np.sum(conf_mtx)
+# def classification_metrics(conf_mtx):
+#     tp = np.diag(conf_mtx)
+#     fp = np.sum(conf_mtx, axis=0) - tp
+#     fn = np.sum(conf_mtx, axis=1) - tp
+#     precision = np.divide(tp, tp + fp, out=np.zeros_like(tp, dtype=float), where=(tp + fp) != 0)
+#     recall = np.divide(tp, tp + fn, out=np.zeros_like(tp, dtype=float), where=(tp + fn) != 0)
+#     f1 = np.divide(2 * precision * recall, precision + recall, out=np.zeros_like(tp, dtype=float), where=(precision + recall) != 0)
+#     accuracy = np.sum(tp) / np.sum(conf_mtx)
 
-    print("\n\n=== MÉTRICAS POR CLASE ===")
-    for i in range(len(tp)):
-        print(f"Clase {i + 1}: Precision={precision[i]:.4f}, Recall={recall[i]:.4f}, F1-Score={f1[i]:.4f}")
+#     print("\n\n=== MÉTRICAS POR CLASE ===")
+#     for i in range(len(tp)):
+#         print(f"Clase {i + 1}: Precision={precision[i]:.4f}, Recall={recall[i]:.4f}, F1-Score={f1[i]:.4f}")
 
-    print("\n=== MÉTRICAS GLOBALES ===")
-    print(f"Accuracy: {accuracy}")
+#     print("\n=== MÉTRICAS GLOBALES ===")
+#     print(f"Accuracy: {accuracy}")
 
-    macro_precision = np.mean(precision)
-    macro_recall = np.mean(recall)
-    macro_f1 = np.mean(f1)
+#     macro_precision = np.mean(precision)
+#     macro_recall = np.mean(recall)
+#     macro_f1 = np.mean(f1)
 
-    print(f"Macro Precision: {macro_precision}")
-    print(f"Macro Recall: {macro_recall}")
-    print(f"Macro F1: {macro_f1}")
+#     print(f"Macro Precision: {macro_precision}")
+#     print(f"Macro Recall: {macro_recall}")
+#     print(f"Macro F1: {macro_f1}")
 
-    return accuracy, macro_precision, macro_recall, macro_f1
+#     return accuracy, macro_precision, macro_recall, macro_f1
 
-conf_matrices = []
+# conf_matrices = []
 
-accuracies = []
-macro_precisions = []
-macro_recalls = []
-macro_f1s = []
+# accuracies = []
+# macro_precisions = []
+# macro_recalls = []
+# macro_f1s = []
 
-for i in range(3):
-    conf_matrix = evaluate_model(models[i], test_loader, n_classes)
-    conf_matrices.append(conf_matrix)
+# for i in range(3):
+#     conf_matrix = evaluate_model(models[i], test_loader, n_classes)
+#     conf_matrices.append(conf_matrix)
 
-    accuracy, macro_precision, macro_recall, macro_f1 = classification_metrics(conf_matrix)
-    accuracies.append(accuracy)
-    macro_precisions.append(macro_precision)
-    macro_recalls.append(macro_recall)
-    macro_f1s.append(macro_f1)
+#     accuracy, macro_precision, macro_recall, macro_f1 = classification_metrics(conf_matrix)
+#     accuracies.append(accuracy)
+#     macro_precisions.append(macro_precision)
+#     macro_recalls.append(macro_recall)
+#     macro_f1s.append(macro_f1)
 
-    model_labels = [f"Modelo {i+1}" for i in range(len(accuracies))]
+#     model_labels = [f"Modelo {i+1}" for i in range(len(accuracies))]
 
-# Gráfica de las métricas
-print()
+# # Gráfica de las métricas
+# print()
 
-metric_names = ["Accuracy", "Precision", "Recall", "F1-Score"]
-metric_values = [accuracies, macro_precisions, macro_recalls, macro_f1s]
+# metric_names = ["Accuracy", "Precision", "Recall", "F1-Score"]
+# metric_values = [accuracies, macro_precisions, macro_recalls, macro_f1s]
 
-x = np.arange(len(metric_names))
-width = 0.2
+# x = np.arange(len(metric_names))
+# width = 0.2
 
-plt.figure(figsize=(10, 6))
+# plt.figure(figsize=(10, 6))
 
-for i in range(len(model_labels)):
-    plt.bar(x + i * width, [metric_values[j][i] for j in range(len(metric_names))],
-            width=width, label=model_labels[i])
+# for i in range(len(model_labels)):
+#     plt.bar(x + i * width, [metric_values[j][i] for j in range(len(metric_names))],
+#             width=width, label=model_labels[i])
 
-plt.xticks(x + width, metric_names)
-plt.ylabel("Valor")
-plt.ylim(0, 1)
-plt.title("Comparación de métricas por modelo", pad=20)
-plt.legend()
-plt.grid(axis='y')
+# plt.xticks(x + width, metric_names)
+# plt.ylabel("Valor")
+# plt.ylim(0, 1)
+# plt.title("Comparación de métricas por modelo", pad=20)
+# plt.legend()
+# plt.grid(axis='y')
 
-for i in range(len(model_labels)):
-    for j in range(len(metric_names)):
-        valor = metric_values[j][i]
-        x_pos = x[j] + i * width
-        plt.text(x_pos, valor + 0.01, f"{valor:.5f}", ha='center', va='bottom', fontsize=8)
+# for i in range(len(model_labels)):
+#     for j in range(len(metric_names)):
+#         valor = metric_values[j][i]
+#         x_pos = x[j] + i * width
+#         plt.text(x_pos, valor + 0.01, f"{valor:.5f}", ha='center', va='bottom', fontsize=8)
 
-plt.tight_layout()
-plt.show()
+# plt.tight_layout()
+# plt.show()
 
-# Gráfica de la confussion matrix
+# # Gráfica de la confussion matrix
 
-for i, matrix in enumerate(conf_matrices):
-    print()
-    plt.figure(figsize=(6, 6))
-    sns.heatmap(matrix, annot=True, fmt="d", cmap="Blues", cbar=False)
-    plt.title(f"Matriz de Confusión - Modelo {i+1}")
-    plt.xlabel("Predicción")
-    plt.ylabel("Valor real")
-    plt.tight_layout()
-    plt.show()
+# for i, matrix in enumerate(conf_matrices):
+#     print()
+#     plt.figure(figsize=(6, 6))
+#     sns.heatmap(matrix, annot=True, fmt="d", cmap="Blues", cbar=False)
+#     plt.title(f"Matriz de Confusión - Modelo {i+1}")
+#     plt.xlabel("Predicción")
+#     plt.ylabel("Valor real")
+#     plt.tight_layout()
+#     plt.show()
 
-def evaluate_model(model, test_loader):
-    model.eval()
-    all_labels = []
-    all_preds = []
+# def evaluate_model(model, test_loader):
+#     model.eval()
+#     all_labels = []
+#     all_preds = []
 
-    with torch.no_grad():
-        for input_data, target_data in test_loader:
-            outputs = model(input_data)
-            preds = torch.argmax(F.softmax(outputs, dim=1), dim=1)
+#     with torch.no_grad():
+#         for input_data, target_data in test_loader:
+#             outputs = model(input_data)
+#             preds = torch.argmax(F.softmax(outputs, dim=1), dim=1)
 
-            all_labels.extend(target_data.tolist())
-            all_preds.extend(preds.tolist())
+#             all_labels.extend(target_data.tolist())
+#             all_preds.extend(preds.tolist())
 
-    print("\nClassification Report:")
-    print(classification_report(all_labels, all_preds, digits=4))
+#     print("\nClassification Report:")
+#     print(classification_report(all_labels, all_preds, digits=4))
 
-    print("Confusion Matrix:")
-    matrix = confusion_matrix(all_labels, all_preds)
-    print(matrix)
+#     print("Confusion Matrix:")
+#     matrix = confusion_matrix(all_labels, all_preds)
+#     print(matrix)
 
-    return matrix
+#     return matrix
 
 
-for i in range(3):
-    evaluate_model(models[i], test_loader)
+# for i in range(3):
+#     evaluate_model(models[i], test_loader)
+
+torch.save(models[2].state_dict(), "../inference/app/model.pt")
+joblib.dump(scaler, "../inference/app/scaler.pkl")
+joblib.dump(label_encoder, "../inference/app/label_encoder.pkl")
