@@ -15,9 +15,11 @@ services:
     image: mongo:5.0                        # Puedes usar la versión que prefieras
     container_name: mongodb
     restart: always
+    env_file:
+      - .env
     environment:
-      MONGO_INITDB_ROOT_USERNAME: admin     # Cambia 'admin' por el usuario que quieras
-      MONGO_INITDB_ROOT_PASSWORD: pass  # Pon una contraseña fuerte
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
     volumes:
       - mongo_data:/data/db                 # Volumen para persistir datos
     ports:
