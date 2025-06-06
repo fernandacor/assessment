@@ -13,22 +13,40 @@ dotenv.config();
 let db;
 
 const uri = process.env.MONGO_URI;
-const secretKey = process.env.SECRET_KEY;
+// const secretKey = process.env.SECRET_KEY;
 const localPort = process.env.PORT || 4000;
 
-const dbName = "AssessmentCodeGEN";
+// const dbName = "AssessmentCodeGEN";
 
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-const client = new MongoClient(uri, {
-    serverApi: {
-        version: ServerApiVersion.v1,
-        strict: true,
-        deprecationErrors: true,
-    },
-});
+// -------------
+const mongoose = require("mongoose");
+
+mongoose
+  .connect(uri, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log("✅ Conectado a MongoDB"))
+  .catch((err) => console.error("❌ Error al conectar a MongoDB:", err));
+//   ---------------
+
+// const client = new MongoClient(uri, {
+//     serverApi: {
+//         version: ServerApiVersion.v1,
+//         strict: true,
+//         deprecationErrors: true,
+//     },
+// });
+
+// async function connectDB() {
+//     await client.connect();
+//     db = client.db(dbName);
+//     console.log("Conectado a la base de datos");
+// }
 
 async function log(sujeto, accion, objeto) {
     let toLog = {};
@@ -37,12 +55,6 @@ async function log(sujeto, accion, objeto) {
     toLog["accion"] = accion;
     toLog["objeto"] = objeto;
     await db.collection("log").insertOne(toLog);
-}
-
-async function connectDB() {
-    await client.connect();
-    db = client.db(dbName);
-    console.log("Conectado a la base de datos");
 }
 
 app.post("/api/login", async (request, response) => {
@@ -211,7 +223,7 @@ app.post("/api/eval", async (req, res) => {
     try {
         console.log(req.body);
         console.log(JSON.stringify(req.body))
-        const flaskResponse = await fetch("http://inference:5000/predict", {
+        const flaskResponse = await fetch(`${process.env.INFERENCE_URL}/predict`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(req.body),
