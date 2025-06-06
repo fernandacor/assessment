@@ -7,7 +7,7 @@ import BotonSiguiente from "@/components/TestButton";
 
 export default function Conflicts() {
   const [isSidebarOpen, setSidebarOpen] = useState(true);
-  const [conflictos, setConflictos] = useState(7);
+  const [conflictos, setConflictos] = useState(0);
 
   const respuesta = { conflicts: conflictos };
   console.log("Conflictos:", respuesta);
