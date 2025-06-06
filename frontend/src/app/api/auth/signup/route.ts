@@ -41,11 +41,25 @@ export async function POST(request: NextRequest) {
       body: JSON.stringify({ email, password, username }),
     });
 
-    const createData = await createRes.json();
+    // 4) Intentar leer JSON de la respuesta
+    let createData: any;
+    try {
+      createData = await createRes.json();
+    } catch (parseErr) {
+      console.error("🔐 [API] Respuesta de /api/users no es JSON:", parseErr);
+      return NextResponse.json(
+        { error: "Error al comunicarse con el backend." },
+        { status: 502 }
+      );
+    }
+
+    // 5) Si Express devolvió un error (409, 400, etc.), reenviarlo
     if (!createRes.ok) {
-      // Si Express devolvió error en el signup (409, 400, etc.), lo reenviamos al cliente
       return NextResponse.json(createData, { status: createRes.status });
     }
+
+    // 6) Éxito: devolvemos { success: true }
+    return NextResponse.json({ success: true }, { status: 200 });
   } catch (err) {
     console.error("Error en /api/auth/signup:", err);
     return NextResponse.json(

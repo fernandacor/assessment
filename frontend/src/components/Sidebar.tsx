@@ -62,9 +62,9 @@ export default function Sidebar({
         />
         <SidebarItem
           icon={<Grape />}
-          label="Wine Recommendation"
+          label="Preguntas Grid"
           isOpen={isOpen}
-          href="/wineRec"
+          href="/preguntasGrid"
         />
         <SidebarItem icon={<FileText />} label="Archivos" isOpen={isOpen} />
         <SidebarItem
