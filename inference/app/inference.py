@@ -35,6 +35,10 @@ model.eval()
 
 app = Flask(__name__)
 
+@app.route("/")
+def home():
+    return "Hola mundo"
+
 @app.route("/predict", methods=["POST"])
 def predict():
     data = request.json
