@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import express from "express";
 import fs from "fs";
 import https from "https";
+import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
 import { MongoClient, ServerApiVersion } from "mongodb";
 import fetch from "node-fetch";
@@ -21,9 +22,6 @@ const localPort = process.env.PORT || 4000;
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
-
-// -------------
-const mongoose = require("mongoose");
 
 mongoose
   .connect(uri, {
@@ -246,6 +244,5 @@ app.get('/api/hello', (req, res) => {
 });
 
 app.listen(localPort, '0.0.0.0', () => {
-    connectDB();
     console.log(`Servidor HTTP escuchando en http://localhost:${localPort}`);
 });
