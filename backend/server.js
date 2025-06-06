@@ -193,7 +193,7 @@ app.post("/analysis", async (req, res) => {
 });
 
 
-app.post("/users", async (req, res) => {
+app.post("/api/users", async (req, res) => {
   try {
     const {
       email,
