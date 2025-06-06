@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, use } from "react";
 import Sidebar from "@/components/Sidebar";
-// import HumanModel from "@/components/HumanModel";
+import HumanModel from "@/components/HumanModel";
 import BotonSiguiente from "@/components/TestButton";
 
 export default function Gender() {
@@ -34,7 +34,7 @@ export default function Gender() {
               ${selectedGender === "male" ? "bg-blue-500" : "bg-blue-300 hover:bg-blue-500"}
             `}
           >
-            {/* <HumanModel gender="male" age={16} /> */}
+            <HumanModel gender="male" age={16} />
           </button>
 
           <button
@@ -43,7 +43,7 @@ export default function Gender() {
               ${selectedGender === "female" ? "bg-pink-500" : "bg-pink-300 hover:bg-pink-500"}
             `}
           >
-            {/* <HumanModel gender="female" age={16} /> */}
+            <HumanModel gender="female" age={16} />
           </button>
         </div>
 
