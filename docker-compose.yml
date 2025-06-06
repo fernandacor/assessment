@@ -11,6 +11,19 @@ services:
     environment:
       - NEXT_PUBLIC_BACKEND_URL=${NEXT_PUBLIC_BACKEND_URL}
 
+  mongo:
+    image: mongo:5.0                        # Puedes usar la versión que prefieras
+    container_name: mongodb
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin     # Cambia 'admin' por el usuario que quieras
+      MONGO_INITDB_ROOT_PASSWORD: pass  # Pon una contraseña fuerte
+    volumes:
+      - mongo_data:/data/db                 # Volumen para persistir datos
+    ports:
+      - "27017:27017"                       # Mapea el puerto interno al host
+
+
   backend1:
     image: backend1
     build: ./backend
@@ -18,6 +31,8 @@ services:
       - "4001:4000"
     env_file:
       - .env
+    depends_on:
+      - mongo
     environment:
       - INSTANCE_NAME=Backend 1
 
@@ -28,6 +43,8 @@ services:
       - "4002:4000"
     env_file:
       - .env
+    depends_on:
+      - mongo
     environment:
       - INSTANCE_NAME=Backend 2
 
@@ -38,6 +55,8 @@ services:
       - "4003:4000"
     env_file:
       - .env
+    depends_on:
+      - mongo
     environment:
       - INSTANCE_NAME=Backend 3
 
@@ -60,3 +79,6 @@ services:
       # - inference
     env_file:
       - .env
+
+volumes:
+  mongo_data:
