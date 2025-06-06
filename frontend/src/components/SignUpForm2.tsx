@@ -69,7 +69,7 @@ export default function SignUpForm() {
           htmlFor="email"
           className="block text-sm font-medium leading-6 text-black"
         >
-          E-mail address
+          Correo Electrónico
         </label>
         <input
           id="email"
@@ -90,7 +90,7 @@ export default function SignUpForm() {
           htmlFor="username"
           className="block text-sm font-medium leading-6 text-black"
         >
-          Username
+          Usuario
         </label>
         <input
           id="username"
@@ -111,7 +111,7 @@ export default function SignUpForm() {
           htmlFor="password"
           className="block text-sm font-medium leading-6 text-black"
         >
-          Password
+          Contraseña
         </label>
         <input
           id="password"
@@ -132,7 +132,7 @@ export default function SignUpForm() {
           htmlFor="confirmPassword"
           className="block text-sm font-medium leading-6 text-black"
         >
-          Confirm Password
+          Confirmar Contraseña
         </label>
         <input
           id="confirmPassword"
@@ -160,7 +160,7 @@ export default function SignUpForm() {
         type="submit"
         className="flex w-full justify-center rounded-md bg-[#355C7D] px-3 py-1.5 text-sm font-bold leading-6 text-white shadow-sm hover:bg-[#C5CAE9] hover:text-[#253c51] focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
       >
-        Sign Up
+        Registrarme
       </button>
     </form>
   );

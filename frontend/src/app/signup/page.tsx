@@ -20,19 +20,19 @@ export default function SignUp() {
           <div className="relative flex flex-col flex-initial w-2xl h-auto mt-5 items-center bg-gray-100/50 rounded-xl mx-auto dark:bg-stone-700/25 z-10 shadow-lg backdrop-blur-md">
             <div className="mx-auto w-full max-w-sm">
               <h2 className="mt-10 text-center text-2xl font-light leading-9 tracking-tight text-lightest">
-              Sign Up for a New Account
+              Crea una cuenta
               </h2>
             </div>
     
             <div className="mx-auto mt-5 w-full max-w-sm">
             <SignUpForm2 />
               <p className="mt-5 mb-5 text-center text-sm text-gray-500">
-                Already have an account?{' '}
+                Ya tienes una cuenta?{' '}
                 <Link
                   href="/signin"
                   className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
                 >
-                  Sign in now!
+                  Inicia sesión!
                 </Link>
               </p>  
             </div>

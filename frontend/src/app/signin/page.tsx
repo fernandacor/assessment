@@ -21,7 +21,7 @@ export default function SignIn() {
       <div className="relative flex flex-col flex-initial w-2xl h-2/3 mt-20 items-center bg-gray-100/50 rounded-xl mx-auto dark:bg-stone-700/25 z-10 shadow-lg backdrop-blur-md">
         <div className="mx-auto w-full max-w-sm">
           <h2 className="mt-10 text-center text-2xl font-light leading-9 tracking-tight text-lightest">
-            Sign in to your account
+            Inicia sesión en tu cuenta
           </h2>
         </div>
 
@@ -29,12 +29,12 @@ export default function SignIn() {
           <SignInForm />
 
           <p className="mt-10 text-center text-sm text-gray-500">
-            Not a member?{' '}
+            Aun no tienes cuenta?{' '}
             <Link
               href="/signup"
               className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
             >
-              Register now!
+              Registrate!
             </Link>
           </p>
         </div>
