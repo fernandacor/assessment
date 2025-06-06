@@ -3,19 +3,16 @@
 import React, { use, useEffect, useState } from "react";
 import NumericSlider from "@/components/NumericSlider";
 import Sidebar from "@/components/Sidebar";
-// import HumanModel from "@/components/HumanModel";
+import Growth from '@/components/Age'
 import BotonSiguiente from "@/components/TestButton";
 
 export default function Age() {
   const [isSidebarOpen, setSidebarOpen] = useState(true);
   const [age, setAge] = useState(16);
 
-  const respuesta = {age: age};
-  console.log("Respuesta de edad:", respuesta);
-  useEffect(() => {
-  localStorage.setItem("age", age.toString());
-  }
-  , [age]);
+    useEffect(() => {
+      localStorage.setItem("age", age.toString());
+    }, [age]);
 
   return (
 
@@ -32,7 +29,7 @@ export default function Age() {
     
             <div className="flex justify-center mt-4 flex-1">
               <div className="w-full max-w-4xl bg-[#444] rounded-2xl shadow-lg p-6 min-h-[65vh] flex items-center justify-center">
-                {/* <HumanModel gender="male" age={age} /> */}
+                <Growth age={age} />
               </div>
             </div>
     
