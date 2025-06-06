@@ -1,7 +1,7 @@
 'use client';
 
-import React, { Suspense, useEffect, useState } from 'react';
-import { Canvas, useThree } from '@react-three/fiber';
+import React, { Suspense, useEffect, useRef } from 'react';
+import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
 
@@ -11,9 +11,8 @@ interface TermometroProps {
 
 export default function Termometro({ conflictos }: TermometroProps) {
   return (
-    <div className="w-full h-[600px] flex flex-col items-center gap-4">
-      <div className="w-full h-[500px] rounded-xl">
-        <Canvas camera={{ position: [0, 0, 10] }}>
+      <div className="w-full h-full rounded-xl">
+        <Canvas camera={{ position: [0, 0, 8], fov: 25}}>
           <ambientLight intensity={2} />
           <directionalLight position={[2, 2, 2]} />
           <Suspense fallback={null}>
@@ -22,37 +21,31 @@ export default function Termometro({ conflictos }: TermometroProps) {
           <OrbitControls />
         </Canvas>
       </div>
-    </div>
   );
 }
 
 function Model({ conflictos }: TermometroProps) {
-  const { scene } = useThree();
   const gltf = useGLTF('/models/termometro.glb');
-  const [liquido, setLiquido] = useState<THREE.Object3D | null>(null);
+  const liquidoRef = useRef<THREE.Object3D | null>(null);
 
+  // Buscar y guardar referencia al objeto "Liquido"
   useEffect(() => {
-    const liquidoObj = gltf.scene.getObjectByName('Liquido')?.clone();
-    if (liquidoObj) {
-      setLiquido(liquidoObj);
-    }
+    gltf.scene.traverse((child) => {
+      if (child.name === 'Liquido') {
+        liquidoRef.current = child;
+      }
+    });
   }, [gltf]);
 
-  // Escalado del líquido basado en conflictos (de 0 a 5 → altura 0 a 1)
-  const scaleY = conflictos / 5;
+  // Aplicar escalado cuando cambie `conflictos`
+  useEffect(() => {
+    const scale = Math.max(0.01, conflictos / 5);
+    const obj = liquidoRef.current;
+    if (obj) {
+      obj.scale.y = scale;
+      // obj.position.z = -1 + scale * 2; // ajusta según el modelo
+    }
+  }, [conflictos]);
 
-  return (
-    <group>
-      {/* Todo el modelo base */}
-      <primitive object={gltf.scene} />
-
-      {/* Líquido separado con escala modificada */}
-      {liquido && (
-        <primitive
-          object={liquido}
-          scale={[1, scaleY, 1]}
-        />
-      )}
-    </group>
-  );
+  return <primitive object={gltf.scene} />;
 }
