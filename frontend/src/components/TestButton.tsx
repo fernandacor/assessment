@@ -46,11 +46,11 @@ export default function BotonSiguiente({ respondido }: BotonSiguienteProps) {
         aria-disabled={!respondido}
         className={cn(
           'px-6 py-3 rounded-2xl text-lg font-semibold transition-all duration-300 shadow-md',
-          'bg-white text-purple-800 hover:bg-purple-200 hover:scale-105',
-          'disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-white'
+          'bg-[#355C7D] text-[#C5CAE9] hover:shadow-[#A8E6CF] hover:text-[#A8E6CF] hover:scale-105',
+          'disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-white',
         )}
       >
-        Siguiente →
+        Next →
       </button>
     </div>
   )

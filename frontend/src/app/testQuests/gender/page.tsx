@@ -18,14 +18,14 @@ export default function Gender() {
   , [selectedGender]);
 
   return (
-    <div className="flex h-screen w-full text-white">
+    <div className="flex h-screen w-full text-[#C5CAE9]">
       <Sidebar
         isOpen={!isSidebarOpen}
         toggle={() => setSidebarOpen(!isSidebarOpen)}
       />
 
-      <div className="flex flex-col h-full w-full bg-yellow-700 p-8 overflow-hidden">
-        <h1 className="text-2xl font-bold mb-6">Gender</h1>
+      <div className="flex flex-col h-full w-full bg-[#333333] p-8 overflow-hidden">
+        <h1 className="text-2xl font-bold mb-6 text-center">Gender</h1>
 
         <div className="flex flex-1 gap-4">
           <button
@@ -47,9 +47,9 @@ export default function Gender() {
           </button>
         </div>
 
-        <div className="mt-6">
-          <BotonSiguiente respondido={selectedGender !== ""} />
-        </div>
+        <div className="mt-auto self-end">
+            <BotonSiguiente respondido={true} />
+              </div>
       </div>
     </div>
   );
