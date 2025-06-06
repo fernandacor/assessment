@@ -6,11 +6,11 @@ interface TypingTextProps {
 }
 
 const TypingText: React.FC<TypingTextProps> = ({ onTypingDone }) => {
-  const introText = `Social networks are a set of websites and applications that enable individuals and communities to connect, discuss and exchange information, and/or produce and share contents. Today, due to the rapid advancement of technology and the typical effortless access to smartphones, the use of social networks has been growing expeditiously.\n\n\
-A big proportion of social network users are university students. The use of these networks can have both positive and negative effects on students' academic performance. However, based on a study by Woods et al. that the adverse effects of these networks outweigh the positive effects \n`;
+  const introText = `Las redes sociales son un conjunto de sitios web y aplicaciones que permiten a individuos y comunidades conectarse, debatir e intercambiar información, y/o producir y compartir contenidos. Hoy en día, debido al rápido avance de la tecnología y al acceso sin esfuerzo a los teléfonos inteligentes, el uso de las redes sociales ha crecido de forma acelerada.\n\n\
+Una gran proporción de los usuarios de redes sociales son estudiantes universitarios. El uso de estas redes puede tener efectos tanto positivos como negativos en el rendimiento académico de los estudiantes. Sin embargo, según un estudio de H.C. Woods, los efectos desfavorables de estas redes superan a los positivos. \n`;
 
   const linkText =
-    "\n- The impact of social networking addiction on the academic achievement of university students globally: A meta-analysis. (2025)";
+    "\n- El impacto de la adicción a las redes sociales en el rendimiento académico de los estudiantes universitarios a nivel mundial: Un meta-análisis. (2025)";
   const linkUrl = "https://doi.org/10.1016/j.puhip.2025.100584";
 
   const fullText = introText + " " + linkText;
