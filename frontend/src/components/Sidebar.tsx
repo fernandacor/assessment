@@ -30,8 +30,6 @@ export default function Sidebar({
   const handleLogout = () => {
     // 1) Borra el JWT y datos guardados
     localStorage.removeItem("token");
-    localStorage.removeItem("nombreUsuario");
-    // 2) Redirige a la página de SignIn
     router.push("/signin");
     router.refresh();
   };
@@ -90,7 +88,7 @@ export default function Sidebar({
           icon={<LogOut />}
           label="Log Out"
           isOpen={isOpen}
-          href="/api/auth/logout"
+          onClick={handleLogout}
         />
       </nav>
     </div>

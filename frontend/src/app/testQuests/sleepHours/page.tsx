@@ -4,10 +4,11 @@ import React, { useState, useEffect, use } from "react";
 import NumericSlider from "@/components/NumericSlider";
 import Sidebar from "@/components/Sidebar";
 import BotonSiguiente from "@/components/TestButton";
+import { Lucecita } from "@/components/Lucecita";
 
 export default function SleepHours() {
   const [isSidebarOpen, setSidebarOpen] = useState(true);
-  const [sleepHours, setSleepHours] = useState(7);
+  const [sleepHours, setSleepHours] = useState(0);
 
   const respuesta = { sleepHours: sleepHours };
   console.log("Respuesta de horas de sueño:", respuesta);
@@ -30,7 +31,7 @@ export default function SleepHours() {
         
                 <div className="flex justify-center mt-4 flex-1">
                   <div className="w-full max-w-4xl bg-[#444] rounded-2xl shadow-lg p-6 min-h-[65vh] flex items-center justify-center">
-                    {/* <HumanModel gender="male" age={age} /> */}
+                    <Lucecita sleepHours={sleepHours} />
                   </div>
                 </div>
         

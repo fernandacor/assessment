@@ -1,6 +1,7 @@
 // src/components/SignInForm.tsx
 "use client";
 
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 interface FormValues {
@@ -9,6 +10,7 @@ interface FormValues {
 }
 
 export default function SignInForm() {
+  const router = useRouter();
   const [formValues, setFormValues] = useState<FormValues>({
     email: "",
     password: "",
@@ -17,30 +19,40 @@ export default function SignInForm() {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    // Validación HTML5 básica: si falta un campo "required", no seguimos
     if (!event.currentTarget.checkValidity()) {
       return;
     }
 
     try {
-      // 1) Enviar credenciales a /api/auth/signin
-      const res = await fetch("/api/auth/signin", {
+      // 1) Llamamos a nuestra ruta Next: /api/auth/signin
+      const res = await fetch("/api/front/auth/signin", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          // Enviamos exactamente { email, password } 
           email: formValues.email,
           password: formValues.password,
         }),
       });
 
       if (res.ok) {
-        // 2) El servidor Next habrá creado la cookie "token" (HttpOnly).
-        setError("");
+        // 2) Login exitoso: recibimos JSON { token, id, nombre }
+        const data = await res.json();
+        // 3) Guardamos el JWT en localStorage para usarlo luego
+        localStorage.setItem("token", data.token);
 
-        // 3) Forzar recarga completa para que la cookie quede registrada
-        window.location.href = "/";
+        // Opcional: guardar algo de info de usuario (nombre) para mostrar en UI
+        localStorage.setItem("nombreUsuario", data.nombre);
+
+        setError("");
+        // 4) Redirigir a la página protegida (ej. /dashboard)
+        router.push("/");
+        router.refresh();
       } else {
-        // 4) En caso de error, mostrar mensaje
+        // Si no es OK, extraemos el JSON con el mensaje de error
         const errData = await res.json();
+        // Podrías mostrar distintos mensajes según el status
         if (res.status === 401 || res.status === 403) {
           setError("Usuario o contraseña incorrectos.");
         } else if (errData.error) {
