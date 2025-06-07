@@ -15,7 +15,8 @@ import {
   BrainCircuit,
   Grape,
   User,
-  Home
+  Home,
+  ClipboardList
 } from "lucide-react";
 
 export default function Sidebar({
@@ -57,6 +58,12 @@ export default function Sidebar({
           label="Profile"
           isOpen={isOpen}
           href="/profile"
+        />
+        <SidebarItem
+          icon={<ClipboardList />}
+          label="Log Out"
+          isOpen={isOpen}
+          href="/userSurvey"
         />
         <SidebarItem
           icon={<LogOut />}
