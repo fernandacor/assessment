@@ -1,17 +1,12 @@
 // app/testQuests/age/page.tsx
 'use client';
 
-import React, { useState, useEffect, Suspense } from "react";
-import dynamic from "next/dynamic";
+import React, { useState, useEffect, lazy, Suspense } from "react";
 import NumericSlider from "@/components/NumericSlider";
 import Sidebar from "@/components/Sidebar";
 import BotonSiguiente from "@/components/TestButton";
 
-// Carga dinámica de Growth (Age.tsx); ssr: false = solo en cliente
-const Growth = dynamic(() => import('@/components/Age'), {
-  ssr: false,
-  suspense: true,
-});
+const Growth = lazy(() => import('@/components/Age'));
 
 export default function AgePage() {
   const [isSidebarOpen, setSidebarOpen] = useState(true);
@@ -31,7 +26,6 @@ export default function AgePage() {
       <div className="flex flex-col flex-1 bg-[#333333] p-8 relative">
         <h1 className="text-2xl font-bold mb-6 text-center">Age in Years</h1>
 
-        {/* Aquí envolvemos Growth en Suspense */}
         <div className="flex justify-center mt-4 flex-1">
           <div className="w-full max-w-4xl bg-[#444] rounded-2xl shadow-lg p-6 min-h-[65vh] flex items-center justify-center">
             <Suspense fallback={<span className="text-white">Cargando 3D…</span>}>
