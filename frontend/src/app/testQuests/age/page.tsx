@@ -55,7 +55,7 @@ export default function AgePage() {
 
     {/* Modelo 3D o contenedor */}
     <div className="w-full max-w-4xl bg-gray-800/30 rounded-xl shadow-xl backdrop-blur-md p-6 min-h-[60vh] flex items-center justify-center ring-2 ring-[#333333]/70">
-      {/* <HumanModel gender="male" age={age} /> */}
+      <Growth age={age} />
     </div>
 
     {/* Slider + botón */}

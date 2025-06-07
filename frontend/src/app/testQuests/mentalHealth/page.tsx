@@ -46,7 +46,7 @@ export default function MentalHealth() {
 
     {/* Modelo 3D o contenedor */}
     <div className="w-full max-w-4xl bg-gray-800/30 rounded-xl shadow-xl backdrop-blur-md p-6 min-h-[60vh] flex items-center justify-center ring-2 ring-[#333333]/70">
-      {/*Cerebro*/}
+      <Brain mentalHealth={mentalHealth} />
     </div>
 
     {/* Slider + botón */}
@@ -75,4 +75,6 @@ export default function MentalHealth() {
 </div>
 
   );
+  
 }
+
