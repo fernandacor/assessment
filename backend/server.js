@@ -42,6 +42,24 @@ const userSchema = new mongoose.Schema({
 // Nombre de la colección será “users” (mongoose automáticamente lo pluraliza)
 const User = mongoose.model("User", userSchema);
 
+const analyticsSchema = new mongoose.Schema({
+  usuario:{ type: String, required: true },
+  Age: {type: Number, required: true},
+  Avg_Daily_Usage_Hours: {type: Number, required: true},
+  Sleep_Hours_Per_Night: {type: Number, required: true},
+  Mental_Health_Score: {type: Number, required: true},
+  Gender: { type: String, required: true },
+  Academic_Level: { type: String, required: true },
+  Country: { type: String, required: true },
+  Most_Used_Platform: { type: String, required: true },
+  Affects_Academic_Performance: { type: String, required: true },
+  Relationship_Status: { type: String, required: true },
+  Conflicts_Over_Social_Media: {type: Number, required: true},
+  result: {type: String, required: true}
+})
+
+const Analytics = mongoose.model("Analytics", analyticsSchema)
+
 const logSchema = new mongoose.Schema({
   timestamp: { type: Date, default: Date.now },
   sujeto: { type: String, required: true },
