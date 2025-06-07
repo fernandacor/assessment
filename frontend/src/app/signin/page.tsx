@@ -5,7 +5,7 @@ import Link from 'next/link'
 
 export default function SignIn() {
   return (
-    <div className="relative flex w-full flex-col px-6 py-12 bg-gray-50 dark:bg-[url(/darkBG.jpg)] bg-cover h-screen overflow-hidden">
+    <div className="relative flex w-full flex-col px-6 py-12 bg-gray-50 bg-cover h-screen overflow-hidden">
       
       {/* Blobs */}
       <div className="absolute top-0 left-35 w-72 h-72 bg-[#355C7D] rounded-full opacity-70 mix-blend-multiply filter blur-xl scale-200 hover:scale-250 transition-transform duration-700 delay-300"></div>
@@ -18,7 +18,7 @@ export default function SignIn() {
     
 
       {/* Sign-in card */}
-      <div className="relative flex flex-col flex-initial w-2xl h-auto mt-20 items-center bg-gray-100/50 rounded-xl mx-auto dark:bg-stone-700/25 z-10 shadow-lg backdrop-blur-md">
+      <div className="relative flex flex-col flex-initial w-2xl h-auto mt-20 items-center mx-auto dark:bg-stone-700/25 z-10 bg-gray-100/50 rounded-xl shadow-lg backdrop-blur-md">
         <div className="mx-auto w-full max-w-sm">
           <h2 className="mt-10 text-center text-2xl font-light leading-9 tracking-tight text-lightest">
             Inicia sesión en tu cuenta

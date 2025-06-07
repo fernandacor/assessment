@@ -21,17 +21,17 @@ const NumericSlider: React.FC<NumericSliderProps> = ({
 }) => {
   return (
     <div className="w-full max-w-md mx-auto py-6">
-      <label className="block text-white text-lg font-medium mb-2">{label}</label>
+      <label className="block text-[#355C7D] text-lg font-medium mb-2">{label}</label>
       <input
         type="range"
-        className="w-full accent-pink-500"
+        className="w-full accent-[#355C7D] bg-[#C5CAE9] rounded-lg h-2 focus:outline-none focus:ring-2 focus:ring-[#C5CAE9] focus:ring-opacity-50"
         min={min}
         max={max}
         step={step}
         value={value}
         onChange={(e) => onChange(Number(e.target.value))}
       />
-      <div className="text-white text-center mt-2 text-xl font-semibold">
+      <div className="text-[#355C7D] text-center mt-2 text-xl font-semibold">
         {value}
       </div>
     </div>
