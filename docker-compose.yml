@@ -62,11 +62,11 @@ services:
     environment:
       - INSTANCE_NAME=Backend 3
 
-  inference:
-    image: inference
-    build: ./inference
-    ports:
-      - "5000:5000"
+  # inference:
+  #   image: inference
+  #   build: ./inference
+  #   ports:
+  #     - "5000:5000"
 
   nginx:
     image: nginx
@@ -78,7 +78,7 @@ services:
       - backend1
       - backend2
       - backend3
-      - inference
+      # - inference
     env_file:
       - .env
 

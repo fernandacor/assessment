@@ -1,9 +1,11 @@
-'use client';
+"use client";
 
-import React, { Suspense, useEffect, useRef, useState } from 'react';
-import { Canvas, useThree } from '@react-three/fiber';
-import { OrbitControls, useGLTF } from '@react-three/drei';
-import * as THREE from 'three';
+import { OrbitControls, useGLTF } from "@react-three/drei";
+import { Canvas, useLoader, useThree } from "@react-three/fiber";
+import React, { Suspense, useEffect, useRef, useState } from "react";
+import * as THREE from "three";
+import { GLTF } from "three-stdlib"; // si quieres tiparlo
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 
 interface AgeProps {
   age: number;
@@ -17,15 +19,16 @@ export default function Growth({ age }: AgeProps) {
         <Suspense fallback={null}>
           <Model age={age} />
         </Suspense>
-        <OrbitControls/>
+        <OrbitControls />
       </Canvas>
     </div>
   );
 }
 
 function Model({ age }: { age: number }) {
-  const gltf = useGLTF('/models/age.glb');
-  const { camera, gl, scene } = useThree();
+  const gltf = useGLTF("/models/age.glb") as GLTF;
+
+  //   const { camera, gl, scene } = useThree();
   const [reloj, setReloj] = useState<THREE.Object3D | null>(null);
   const [manecilla, setManecilla] = useState<THREE.Object3D | null>(null);
   const [hombre, setHombre] = useState<THREE.Object3D | null>(null);
@@ -33,46 +36,43 @@ function Model({ age }: { age: number }) {
   const raycaster = new THREE.Raycaster();
   const mouse = new THREE.Vector2();
 
+  const { scene } = useThree();
+
+  // 4) Efecto para añadir la escena al canvas
   useEffect(() => {
-    gltf.scene.traverse((child) => {
-      if (child.name) {
-        console.log('🧩 Model part:', child.name);
-      }
-    });
+    scene.add(gltf.scene);
+  }, [gltf, scene]);
 
-    const relojObj = gltf.scene.getObjectByName('Reloj')?.clone();
-    const manecillaObj = gltf.scene.getObjectByName('Manecilla')?.clone();
-
-    const guessHombre = gltf.scene.children.find(
-      (obj) => obj.name.toLowerCase().includes('hombre') || obj.name.toLowerCase().includes('body') || obj.name.includes('Plane')
-    )?.clone();
+  // 5) Efecto separado para extraer y clonar partes
+  useEffect(() => {
+    const relojObj = gltf.scene.getObjectByName("Reloj")?.clone();
+    const manecillaObj = gltf.scene.getObjectByName("Manecilla")?.clone();
+    const guessHombre = gltf.scene.children
+      .find(
+        (obj) =>
+          obj.name.toLowerCase().includes("hombre") ||
+          obj.name.toLowerCase().includes("body") ||
+          obj.name.includes("Plane")
+      )
+      ?.clone();
 
     if (relojObj) setReloj(relojObj);
     if (manecillaObj) setManecilla(manecillaObj);
-    if (guessHombre) {
-      console.log('👨‍🦱 Hombre encontrado:', guessHombre.name);
-      setHombre(guessHombre);
-    }
+    if (guessHombre) setHombre(guessHombre);
   }, [gltf]);
 
+  // 6) Efecto para actualizar rotación y escala
   useEffect(() => {
     if (manecilla) {
       const angle = -Math.PI / 2 + ((age - 0) / (25 - 16)) * Math.PI;
       manecilla.rotation.z = angle;
     }
-
     if (hombre) {
-        const minAge = 16;
-        const maxAge = 25;
-        const minScaleY = 1;      // Escala normal
-        const maxScaleY = 2.5;    // Escala deseada a los 25 años
-
-        const t = (age - minAge) / (maxAge - minAge); // normaliza a [0,1]
-        const newZ = minScaleY + t * (maxScaleY - minScaleY);
-
-        hombre.scale.set(1, newZ, 1); // Solo crece en Z, mantiene X e Y
-        }
-        }, [age, manecilla, hombre]);
+      const t = (age - 16) / (25 - 16);
+      const newZ = 1 + t * (2.5 - 1);
+      hombre.scale.set(1, newZ, 1);
+    }
+  }, [age, manecilla, hombre]);
 
   return (
     <>
