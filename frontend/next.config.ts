@@ -1,8 +1,7 @@
-import type { NextConfig } from "next";
+import { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  reactStrictMode: true,
-  // (opcional) si tu proxy no sirve bien .glb, añade este headers
+  // 1️⃣ Inyecta un header para que el navegador y el loader sepan que es binario
   async headers() {
     return [
       {
@@ -12,6 +11,19 @@ const nextConfig: NextConfig = {
         ],
       },
     ];
+  },
+
+  // 2️⃣ Dile a Webpack que los .glb los emita como recurso estático,
+  //     no que intente parsearlos como JSON
+  webpack(config: any) {
+    config.module.rules.push({
+      test: /\.(glb|gltf)$/,
+      type: 'asset/resource',
+      generator: {
+        filename: 'static/models/[name][ext]',
+      },
+    });
+    return config;
   },
 };
 
