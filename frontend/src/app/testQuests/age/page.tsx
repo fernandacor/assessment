@@ -1,21 +1,29 @@
+// app/testQuests/age/page.tsx
 'use client';
 
-import React, { use, useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
+import dynamic from "next/dynamic";
 import NumericSlider from "@/components/NumericSlider";
 import Sidebar from "@/components/Sidebar";
-// import HumanModel from "@/components/HumanModel";
 import BotonSiguiente from "@/components/TestButton";
 
-export default function Age() {
+// Aquí cargas el componente que monta el Canvas + Model,
+// sin SSR, y con fallback mientras carga el chunk.
+const Growth = dynamic<{ age: number }>(
+  () => import('@/components/Age'),
+  {
+    ssr: false,
+    loading: () => <span className="text-white">Cargando 3D…</span>,
+  }
+);
+
+export default function AgePage() {
   const [isSidebarOpen, setSidebarOpen] = useState(true);
   const [age, setAge] = useState(16);
 
-  const respuesta = {age: age};
-  console.log("Respuesta de edad:", respuesta);
   useEffect(() => {
-  localStorage.setItem("age", age.toString());
-  }
-  , [age]);
+    localStorage.setItem("age", age.toString());
+  }, [age]);
 
   return (
     <div className="relative w-full h-screen overflow-hidden flex">

@@ -6,19 +6,11 @@ import { OrbitControls, useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
 
 export default function Mapamundi() {
-  const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
-
-  if (!isClient) return null;
-
   return (
     <div className="w-full h-full rounded-xl">
-      <Canvas shadows camera={{position: [-2, 0, 17], fov: 10 }}>
+      <Canvas shadows camera={{ position: [-2, 0, 17], fov: 10 }}>
         <ambientLight intensity={1} />
-        <directionalLight castShadow position={[10,10,10]} />
+        <directionalLight castShadow position={[10, 10, 10]} />
         <Suspense fallback={null}>
           <Model />
         </Suspense>
@@ -35,8 +27,7 @@ function Model() {
   const mouse = new THREE.Vector2();
 
   useEffect(() => {
-    const handleClick = (event: { clientX: number; clientY: number; }) => {
-      // Normaliza coordenadas del mouse
+    const handleClick = (event: MouseEvent) => {
       const bounds = gl.domElement.getBoundingClientRect();
       mouse.x = ((event.clientX - bounds.left) / bounds.width) * 2 - 1;
       mouse.y = -((event.clientY - bounds.top) / bounds.height) * 2 + 1;
@@ -47,9 +38,7 @@ function Model() {
       if (intersects.length > 0) {
         const clickedObject = intersects[0].object;
         console.log('Clicked:', clickedObject.name);
-        // if (clickedObject.name === 'app1') {
-        //   console.log('App 1 clicked');
-        // }
+        localStorage.setItem('country', clickedObject.name)
       }
     };
 

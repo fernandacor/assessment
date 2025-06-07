@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import NumericSlider from "@/components/NumericSlider";
 import Sidebar from "@/components/Sidebar";
 import BotonSiguiente from "@/components/TestButton";
+import Brain from '@/components/Brain'
 
 export default function MentalHealth() {
   const [isSidebarOpen, setSidebarOpen] = useState(true);
