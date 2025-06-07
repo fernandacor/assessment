@@ -37,7 +37,7 @@ export default function Sidebar({
 
   return (
     <div
-      className={`bg-green-900 text-white transition-all duration-300 ${
+      className={`bg-[#355C7D] text-white transition-all duration-300 ${
         isOpen ? "w-64" : "w-16"
       } h-full flex flex-col`}
     >
