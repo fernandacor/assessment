@@ -1,12 +1,21 @@
 // app/testQuests/age/page.tsx
 'use client';
 
-import React, { useState, useEffect, lazy, Suspense } from "react";
+import React, { useState, useEffect } from "react";
+import dynamic from "next/dynamic";
 import NumericSlider from "@/components/NumericSlider";
 import Sidebar from "@/components/Sidebar";
 import BotonSiguiente from "@/components/TestButton";
 
-const Growth = lazy(() => import('@/components/Age'));
+// Aquí cargas el componente que monta el Canvas + Model,
+// sin SSR, y con fallback mientras carga el chunk.
+const Growth = dynamic<{ age: number }>(
+  () => import('@/components/Age'),
+  {
+    ssr: false,
+    loading: () => <span className="text-white">Cargando 3D…</span>,
+  }
+);
 
 export default function AgePage() {
   const [isSidebarOpen, setSidebarOpen] = useState(true);
@@ -28,9 +37,8 @@ export default function AgePage() {
 
         <div className="flex justify-center mt-4 flex-1">
           <div className="w-full max-w-4xl bg-[#444] rounded-2xl shadow-lg p-6 min-h-[65vh] flex items-center justify-center">
-            <Suspense fallback={<span className="text-white">Cargando 3D…</span>}>
-              <Growth age={age} />
-            </Suspense>
+            {/* Ya no usas Suspense aquí */}
+            <Growth age={age} />
           </div>
         </div>
 
