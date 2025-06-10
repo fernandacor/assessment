@@ -4,6 +4,8 @@ import { Canvas, useThree, useFrame } from '@react-three/fiber';
 import { OrbitControls, useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
 
+// CelconApps 3D model component
+
 
 export default function CelSinApps() {
   const [isClient, setIsClient] = useState(false);

@@ -5,6 +5,8 @@ import { Canvas, useThree, useFrame } from '@react-three/fiber';
 import { OrbitControls, useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
 
+// Mapamundi 3D model component
+
 export default function Mapamundi() {
   return (
     <div className="w-full h-full rounded-xl">

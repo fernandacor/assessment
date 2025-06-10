@@ -20,6 +20,8 @@ const NumericSlider: React.FC<NumericSliderProps> = ({
   onChange,
 }) => {
   return (
+    
+// Numeric Slider Component
     <div className="w-full max-w-md mx-auto py-6">
       <label className="block text-[#355C7D] text-lg font-medium mb-2">{label}</label>
       <input

@@ -5,6 +5,8 @@ import { Canvas } from '@react-three/fiber';
 import { OrbitControls, useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
 
+// Relojcito 3D model component
+
 interface RelojcitoProps {
   hour: number;
 }
