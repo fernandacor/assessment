@@ -11,22 +11,11 @@ Para nuestro proyecto, se desarrolló un cuestionario interactivo con modelos 3D
 ## Estructura
 - backend
 - db
-- db 2
 - frontend
 - inference
 - nginx
 - training
 
-- proyecto/
-├─ backend/
-│  ├─ components/
-│  ├─ utils/
-├─ db/
-├─ db 2/
-├─ frontend/
-├─ inference/
-├─ nginx/
-├─ training/
 
 ## Herramientas Usadas
 
@@ -38,9 +27,6 @@ Para nuestro proyecto, se desarrolló un cuestionario interactivo con modelos 3D
 
 ## Cómo Correr El Proyecto
 ### Prerequisitos
-[NodeJS v24.1.0](https://nodejs.org/en/download)
-
-[NextJS v15.3.3](https://nextjs.org/docs/app/getting-started/installation)
 
 [Docker](https://www.docker.com/products/docker-desktop/)
 
@@ -48,11 +34,8 @@ Para nuestro proyecto, se desarrolló un cuestionario interactivo con modelos 3D
 
 ```git clone https://github.com/fernandacor/assessment.git```
 
-```npm install```
-
 ### Correr el Proyecto
-```npm run dev```
 
-```docker compose -f docker-compose.yml -f docker-compose.dev.yml up```
+```docker-compose up```
 
 
