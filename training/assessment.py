@@ -11,7 +11,7 @@ import numpy as np
 import seaborn as sns
 import joblib
 
-path = './Students_Social_Media_Addiction_Duplicated.csv'
+path = './Students_Social_Media_Addiction.csv'
 
 df = pd.read_csv(path)
 
