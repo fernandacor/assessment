@@ -17,6 +17,17 @@ Para nuestro proyecto, se desarrolló un cuestionario interactivo con modelos 3D
 - nginx
 - training
 
+- proyecto/
+├─ backend/
+│  ├─ components/
+│  ├─ utils/
+├─ db/
+├─ db 2/
+├─ frontend/
+├─ inference/
+├─ nginx/
+├─ training/
+
 ## Herramientas Usadas
 
 **Frontend**: NextJS, Tailwind CSS, Three.js
