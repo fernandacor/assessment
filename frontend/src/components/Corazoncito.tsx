@@ -3,6 +3,8 @@ import { Canvas, useThree, useFrame } from '@react-three/fiber';
 import { OrbitControls, useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
 
+// Coraoznes 3D model component
+
 export default function Corazoncito() {
   const [isClient, setIsClient] = useState(false);
 

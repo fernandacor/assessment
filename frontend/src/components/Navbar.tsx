@@ -1,6 +1,8 @@
 import Link from 'next/link'
 import { LogIn, User } from 'lucide-react'
 
+// Navbar component
+
 export default async function Navbar() {
     return (
         <nav className='top-0 z-50 w-full bg-pink-900 bg-opacity-10 backdrop-filter'>

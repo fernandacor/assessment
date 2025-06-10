@@ -1,6 +1,8 @@
 "use client";
 import React, { useEffect, useState } from 'react';
 
+// TypingText component that simulates typing effect for a given text
+
 interface TypingTextProps {
   onTypingDone?: () => void;
 }

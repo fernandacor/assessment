@@ -16,6 +16,8 @@ async function Profile() {
           <p> John Doe</p>
         </div>
         <div className='flex items-center space-x-5'>
+
+          {/* User info */}
           
           <div className='text-lg'>Username: johndoe</div>
         </div>
@@ -28,7 +30,7 @@ async function Profile() {
           </div>
         </div>
 
-
+        {/* Logout */}
       <button
         type="submit"
         className=" w-2/5 justify-center rounded-md bg-gradient-to-r from-sky-600/50 to-pink-200 px-3 py-1.5 text-sm font-bold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 mt-10"

@@ -4,6 +4,8 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { useGLTF, OrbitControls } from '@react-three/drei';
 import * as THREE from 'three';
 
+// Brain 3D model component
+
 interface BrainProps {
   mentalHealth: number; // de 0 a 10
 }

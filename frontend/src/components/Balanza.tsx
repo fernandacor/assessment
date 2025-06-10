@@ -4,6 +4,8 @@ import { Canvas, useThree, useFrame } from '@react-three/fiber';
 import { OrbitControls, useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
 
+// Balanza 3D model component
+
 
 export default function Balanza() {
   const [isClient, setIsClient] = useState(false);

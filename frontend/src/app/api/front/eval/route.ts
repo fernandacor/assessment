@@ -4,6 +4,8 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
 
+    // Validate the request body
+
     const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/eval`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -15,6 +17,7 @@ export async function POST(req: Request) {
       return new Response(JSON.stringify({ error: errorText }), { status: res.status });
     }
 
+    // Parse the response from the backend
     const data = await res.json();
     return new Response(JSON.stringify(data), {
       headers: { "Content-Type": "application/json" },

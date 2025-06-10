@@ -13,9 +13,6 @@ export default function SignIn() {
           <div className="absolute -bottom-8 left-100 w-72 h-72 bg-[#a9b1e0] rounded-full opacity-70 mix-blend-multiply filter blur-xl scale-200 hover:scale-250 transition-transform duration-700 delay-300"></div>
           <div className="absolute bottom-40 left-20 w-72 h-72 bg-[#A8E6CF] rounded-full opacity-70 mix-blend-multiply filter blur-xl scale-200 hover:scale-250 transition-transform duration-700 delay-150"></div>
           <div className="absolute top-75 -right-2 w-72 h-72 bg-[#a9b1e0] rounded-full opacity-70 mix-blend-multiply filter blur-xl scale-200 hover:scale-250 transition-transform duration-700 delay-300"></div>
-    
-    
-    
 
       {/* Sign-in card */}
       <div className="relative flex flex-col flex-initial w-2xl h-auto mt-20 items-center mx-auto dark:bg-stone-700/25 z-10 bg-gray-100/50 rounded-xl shadow-lg backdrop-blur-md">

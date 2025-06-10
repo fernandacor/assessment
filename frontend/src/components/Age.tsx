@@ -1,5 +1,7 @@
 'use client';
 
+//  Age 3D model component
+
 import React, { Suspense, useEffect, useRef, useState } from 'react';
 import { Canvas, useThree } from '@react-three/fiber';
 import { OrbitControls, useGLTF } from '@react-three/drei';

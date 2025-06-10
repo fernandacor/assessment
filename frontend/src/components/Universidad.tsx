@@ -5,6 +5,8 @@ import { Canvas, useThree, useFrame } from '@react-three/fiber';
 import { OrbitControls, useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
 
+// Universidad 3D model component
+
 export default function Universidad() {
   const [isClient, setIsClient] = useState(false);
 
